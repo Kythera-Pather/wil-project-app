@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Linking, Pressable, ImageBackground, PressableStateCallbackType, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList, AppNavigationProp } from '../navigation/Navigation';
-import { sixMonthCourses, sixWeekCourses } from '../data/courses';
+import { sixMonthCourses, sixWeekCourses } from '../types/courses';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 type PressableState = PressableStateCallbackType & { hovered?: boolean };
