@@ -15,11 +15,7 @@ export type RootStackParamList = {
       phone: string;
       email: string;
     };
-    selectedCourses: Array<{
-      id: string;
-      name: string;
-      price: number;
-    }>;
+    selectedCourses: Array<{ id: string; name: string; price: number }>;
     subtotal: number;
     discount: number;
     discountAmount: number;
@@ -40,8 +36,8 @@ export type RootStackParamList = {
   LandscapingCourse: undefined;
   LifeSkillsCourse: undefined;
   // Six-week course screens
-  CookingCourse: undefined;
   ChildMindingCourse: undefined;
+  CookingCourse: undefined;
   GardenMaintenanceCourse: undefined;
 };
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Linking, Pressable, ImageBackground, PressableStateCallbackType, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList, AppNavigationProp } from '../types/navigation';
-import { sixMonthCourses, sixWeekCourses } from './courses';
+import { RootStackParamList, AppNavigationProp } from '../navigation/Navigation';
+import { sixMonthCourses, sixWeekCourses } from '../data/courses';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 type PressableState = PressableStateCallbackType & { hovered?: boolean };
@@ -10,7 +10,6 @@ type PressableState = PressableStateCallbackType & { hovered?: boolean };
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProp>();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
   const handleNavigation = (screen: keyof RootStackParamList) => {
     navigation.navigate(screen);
@@ -30,71 +29,18 @@ const HomeScreen: React.FC = () => {
     navigation.navigate('Signup');
   };
 
-  const generalInfoSearch = [
-    { keywords: ['about', 'story', 'mission', 'vision', 'who we are'], screen: 'AboutScreen' as const },
-    { keywords: ['team', 'founder', 'staff', 'precious radebe', 'instructors'], screen: 'MeetTheTeam' as const },
-    { keywords: ['contact', 'phone', 'email', 'address', 'location', 'map', 'get in touch'], screen: 'Contact' as const },
-    { keywords: ['faq', 'questions', 'payment', 'enrollment', 'enroll'], screen: 'Contact' as const },
-    { keywords: ['fee', 'calculator', 'discount', 'price', 'cost', 'select course'], screen: 'CourseSelection' as const },
-    { keywords: ['six month', '6 month', 'long courses'], screen: 'SixMonthCourses' as const },
-    { keywords: ['six week', '6 week', 'short courses'], screen: 'SixWeekCourses' as const },
-    { keywords: ['login', 'sign in', 'portal'], screen: 'Login' as const },
-    { keywords: ['signup', 'sign up', 'register', 'create account'], screen: 'Signup' as const },
+  const navLinks = [
+    { label: 'Home', screen: 'Home' as keyof RootStackParamList },
+    { label: 'Six Week Courses', screen: 'SixWeekCourses' as keyof RootStackParamList },
+    { label: 'Six Month Courses', screen: 'SixMonthCourses' as keyof RootStackParamList },
+    { label: 'Course Selection', screen: 'CourseSelection' as keyof RootStackParamList },
+    { label: 'Contact Us', screen: 'Contact' as keyof RootStackParamList },
   ];
 
-  const handleSearch = () => {
-    if (!searchQuery.trim()) {
-      Alert.alert('Search', 'Please enter a course name, program, or info to search.');
-      return;
-    }
-
-    const allCourses = [...sixMonthCourses, ...sixWeekCourses];
-    const lowerCaseQuery = searchQuery.toLowerCase();
-
-    // 1. Search for general info and pages first
-    for (const info of generalInfoSearch) {
-      if (info.keywords.some(keyword => lowerCaseQuery.includes(keyword))) {
-        navigation.navigate(info.screen);
-        return;
-      }
-    }
-
-    // 2. If no general info found, search for courses
-    const courseResults = allCourses.filter(course => 
-      course.title.toLowerCase().includes(lowerCaseQuery) ||
-      course.description.toLowerCase().includes(lowerCaseQuery)
-    );
-
-    if (courseResults.length === 1) {
-      const course = courseResults[0];
-      const screenMap: { [key: string]: keyof RootStackParamList } = {
-        'first-aid': 'FirstAidCourse',
-        'sewing': 'SewingCourse',
-        'landscaping': 'LandscapingCourse',
-        'life-skills': 'LifeSkillsCourse',
-        'cooking': 'CookingCourse',
-        'child-minding': 'ChildMindingCourse',
-        'garden-maintenance': 'GardenMaintenanceCourse',
-      };
-      const screenName = screenMap[course.id];
-      if (screenName) {
-        navigation.navigate(screenName);
-      } else {
-        // Fallback to a generic course detail or selection screen if mapping is missing
-        navigation.navigate('CourseSelection', { searchQuery });
-      }
-    } else if (courseResults.length > 1) {
-      // Navigate to the course selection screen to show multiple results
-      navigation.navigate('CourseSelection', { searchQuery });
-    } else {
-      // 3. If no courses found either, show no results
-      Alert.alert('No Results', `No results found for "${searchQuery}".`);
-    }
-  };
-  
-  return ( // The screenMap in handleSearch is missing some course IDs. I'll add them.
-    <ScrollView style={styles.container}>
-      {/* Header */}
+  return (
+    <View style={styles.fullScreenContainer}>
+      <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.contentContainer}>
+        {/* Header */}
       <View style={styles.header}>
         {/* Hamburger Menu Icon (placeholder) */}
         <TouchableOpacity style={styles.headerIconContainer}>
@@ -110,13 +56,14 @@ const HomeScreen: React.FC = () => {
         {/* User Icon and Dropdown */}
         <View style={styles.headerIconContainer}>
           <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
-            <Icon name="user-o" size={24} color="#000" />
+            <Icon name="user" size={24} color="#000" />
           </TouchableOpacity>
           {showDropdown && (
             <View style={styles.dropdownMenu}>
               <TouchableOpacity style={styles.dropdownItem} onPress={handleLogin}>
                 <Text style={styles.dropdownItemText}>Login</Text>
               </TouchableOpacity>
+              <View style={styles.dropdownSeparator} />
               <TouchableOpacity style={styles.dropdownItem} onPress={handleSignup}>
                 <Text style={styles.dropdownItemText}>Sign Up</Text>
               </TouchableOpacity>
@@ -125,15 +72,17 @@ const HomeScreen: React.FC = () => {
         </View>
       </View>
 
-      {/* Breadcrumb */}
-      <View style={styles.breadcrumb}>
-        <View style={styles.breadcrumbContainer}>
-          <TouchableOpacity onPress={() => handleNavigation('Home')}>
-            <Text style={styles.breadcrumbLink}>Home</Text>
+      {/* Mobile Navigation Column */}
+      <View style={styles.mobileNavContainer}>
+        {navLinks.map((link) => (
+          <TouchableOpacity
+            key={link.screen}
+            style={styles.mobileNavLink}
+            onPress={() => handleNavigation(link.screen)}
+          >
+            <Text style={styles.mobileNavLinkText}>{link.label}</Text>
           </TouchableOpacity>
-          <Text style={styles.breadcrumbSeparator}> &gt; </Text>
-          <Text style={styles.breadcrumbCurrent}>Welcome</Text>
-        </View>
+        ))}
       </View>
 
       {/* Hero Section */}
@@ -266,7 +215,7 @@ const HomeScreen: React.FC = () => {
           style={({ hovered }: PressableState) => [styles.btn, { alignSelf: 'center', marginTop: 20, width:300, height:40 }, hovered && styles.btnHover]}
           onPress={() => handleNavigation('CourseSelection')}
         >
-          <Text style={styles.btnText}>VIEW ALL COURSES</Text>
+          <Text style={styles.viewAllBtnText}>VIEW ALL COURSES</Text>
         </Pressable>
       </View>
 
@@ -286,7 +235,7 @@ const HomeScreen: React.FC = () => {
           style={({ hovered }: PressableState) => [styles.btn, styles.goldBtn, { alignSelf: 'center', marginTop: 20}, hovered && styles.goldBtnHover]}
           onPress={() => handleNavigation('AboutScreen')}
         >
-          <Text style={styles.btnText}>LEARN MORE ABOUT US</Text>
+          <Text style={styles.goldBtnText}>LEARN MORE ABOUT US</Text>
         </Pressable>
       </View>
 
@@ -317,14 +266,11 @@ const HomeScreen: React.FC = () => {
           style={({ hovered }: PressableState) => [styles.btn, styles.goldBtn, hovered && styles.goldBtnHover]}
           onPress={() => handleNavigation('Signup')}
         >
-          <Text style={styles.btnText}>ENROLL TODAY</Text>
+          <Text style={styles.goldBtnText}>ENROLL TODAY</Text>
         </Pressable>
       </View>
 
-      {/* Spacer for bottom nav */}
-      <View style={{ height: 80 }} />
-
-      {/* Persistent Bottom Navigation */}
+      </ScrollView>
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Home')}>
           <Icon name="home" size={24} color="#004225" />
@@ -343,57 +289,20 @@ const HomeScreen: React.FC = () => {
           <Text style={styles.bottomNavText}>Contact</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Footer */}
-      <View style={styles.footer}>
-        <View style={styles.footerGrid}>
-          <View style={styles.footerColumn}>
-            <Text style={styles.footerHeading}>Empowering the Nation</Text>
-            <Text style={styles.footerText}>Transforming lives through skills development and education since 2018.</Text>
-            <View style={styles.socialLinks}>
-              <TouchableOpacity style={styles.socialLink} onPress={() => openLink('https://facebook.com')}><Icon name="facebook-f" size={16} color="#fff" /></TouchableOpacity>
-              <TouchableOpacity style={styles.socialLink} onPress={() => openLink('https://twitter.com')}><Icon name="twitter" size={16} color="#fff" /></TouchableOpacity>
-              <TouchableOpacity style={styles.socialLink} onPress={() => openLink('https://instagram.com')}><Icon name="instagram" size={16} color="#fff" /></TouchableOpacity>
-              <TouchableOpacity style={styles.socialLink} onPress={() => openLink('https://linkedin.com')}><Icon name="linkedin" size={16} color="#fff" /></TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.footerColumn}>
-            <Text style={styles.footerHeading}>Quick Links</Text>
-            <Pressable onPress={() => handleNavigation('Home')}>
-              {({ hovered }: PressableState) => <Text style={[styles.footerLink, hovered && styles.footerLinkHover]}>Home</Text>}
-            </Pressable>
-            <Pressable onPress={() => handleNavigation('SixMonthCourses')}>
-              {({ hovered }: PressableState) => <Text style={[styles.footerLink, hovered && styles.footerLinkHover]}>Six-Month Courses</Text>}
-            </Pressable>
-            <Pressable onPress={() => handleNavigation('SixWeekCourses')}>
-              {({ hovered }: PressableState) => <Text style={[styles.footerLink, hovered && styles.footerLinkHover]}>Six-Week Courses</Text>}
-            </Pressable>
-            <Pressable onPress={() => handleNavigation('CourseSelection')}>
-              {({ hovered }: PressableState) => <Text style={[styles.footerLink, hovered && styles.footerLinkHover]}>Course Selection</Text>}
-            </Pressable>
-            <Pressable onPress={() => handleNavigation('Contact')}>
-              {({ hovered }: PressableState) => <Text style={[styles.footerLink, hovered && styles.footerLinkHover]}>Contact Us</Text>}
-            </Pressable>
-          </View>
-          <View style={styles.footerColumn}>
-            <Text style={styles.footerHeading}>Contact Info</Text>
-            <Text style={styles.contactInfoItem}><Icon name="map-marker" size={16} color="#CFB53B" /> 123 Education St, Johannesburg, South Africa</Text>
-            <Text style={styles.contactInfoItem}><Icon name="phone" size={16} color="#CFB53B" /> +27 11 123 4567</Text>
-            <Text style={styles.contactInfoItem}><Icon name="envelope" size={16} color="#CFB53B" /> info@empoweringthenation.org.za</Text>
-          </View>
-        </View>
-        <View style={styles.copyright}>
-          <Text style={styles.copyrightText}>&copy; 2025 Empowering the Nation. All rights reserved.</Text>
-        </View>
-      </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  fullScreenContainer: {
     flex: 1,
     backgroundColor: '#ffffffff',
+  },
+  contentContainer: {
+    paddingBottom: 80, // Add space for the persistent bottom navigation
+  },
+  scrollContainer: {
+    flex: 1,
     position: 'relative',
   },
   header: {
@@ -428,57 +337,22 @@ const styles = StyleSheet.create({
     color: '#004225',
     marginTop: 4,
   },
-  // Kept for reference, but not used in mobile-first design
-  /* navMenu: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    maxWidth: '60%',
-    justifyContent: 'center',
-  },
-  navLinkContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 4,
-    marginRight: 10,
-    marginHorizontal: 5,
-    height:25,
-  },
-  navLinkHoverActive: {
-    backgroundColor: '#e6f0f7',
-  },
-  navLink: {
-    fontSize: 18,
-    color: '#000000ff',
-    fontWeight: '500',
-    marginHorizontal:25,
-  },
-  navLinkTextHoverActive: {
-    color: '#1F6357',
-  }, */
-  breadcrumb: {
+  mobileNavContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10, // This creates the space under the header
     backgroundColor: '#f8f9fa',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
-  breadcrumbContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  mobileNavLink: {
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e9ecef',
   },
-  breadcrumbLink: {
-    fontSize: 14,
-    color: '#0055a5',
+  mobileNavLinkText: {
+    fontSize: 16,
     fontWeight: '500',
-  },
-  breadcrumbSeparator: {
-    fontSize: 14,
-    color: '#6c757d',
-    marginHorizontal: 5,
-  },
-  breadcrumbCurrent: {
-    fontSize: 14,
-    color: '#000000ff',
+    color: '#004225',
   },
   hero: {
     width: '100%',
@@ -527,12 +401,16 @@ const styles = StyleSheet.create({
     height:50,
     alignItems: 'center',
     justifyContent: 'center',
-    width: 250,
   },
   btnText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  goldBtnText: {
     color: '#002a18',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 16,
   },
   heroBtn: {
     backgroundColor: '#CFB53B', // Gold/Brown color
@@ -542,7 +420,6 @@ const styles = StyleSheet.create({
     height:50,
     alignItems: 'center',
     justifyContent: 'center',
-    width: 250,
   },
   btnHover: {
     backgroundColor: '#bcae35', // Darker gold for hover
@@ -593,8 +470,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 4,
     borderBottomColor: '#CFB53B',
-    alignSelf: 'center',
-    width: '25%',
+    alignSelf: 'center', // Let the width be determined by content
   },
   featuresGrid: {
     flexDirection: 'row',
@@ -603,8 +479,6 @@ const styles = StyleSheet.create({
     gap: 30,
     width: '100%',
     alignContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
   },
   featureCard: {
     backgroundColor: '#343a40', // Dark gray
@@ -652,11 +526,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 30,
     width: '100%',
-    alignContent: 'center',
-    textAlign: 'center',
-    alignItems: 'center',
-    height:400,
-    backgroundColor: '#ffffffff',
+    backgroundColor: '#fff',
   },
   courseCard: {
     backgroundColor: '#343a40', // Dark gray
@@ -664,7 +534,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     flex: 1,
     minWidth: 300,
-    maxWidth: 350,
+    maxWidth: '100%', // Allow card to shrink on smaller screens
     marginHorizontal: 10,
     overflow: 'hidden',
     marginBottom: 20, // For wrapping on mobile
@@ -710,6 +580,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
   },
+  viewAllBtnText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   btnOutlineHover: {
     backgroundColor: '#bcae35',
   },
@@ -723,8 +598,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: '#002a18',
-    marginBottom: 15,
-    textAlign:'left',
+    marginBottom: 15, // Centered text for this section
+    textAlign: 'center',
   },
   testimonials: {
     backgroundColor: '#002a18', // Changed to match the original design intent
@@ -748,7 +623,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10,
     elevation: 2,
-    flexBasis: '30%',
     minWidth: 300,
     textAlign: 'center',
     alignItems: 'center',
@@ -784,77 +658,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  footer: {
-    backgroundColor: '#002a18',
-    paddingTop: 50,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-  },
-  footerGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 40,
-  },
-  footerColumn: {
-    marginBottom: 20,
-    flex: 1,
-    minWidth: 250,
-  },
-  footerHeading: {
-    color: '#fff',
-    marginBottom: 20,
-    paddingBottom: 10,
-    fontSize: 18,
-    fontWeight: 'bold',
-    borderBottomWidth: 3,
-    borderBottomColor: '#CFB53B',
-    width: 200,
-  },
-  footerText: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
-    lineHeight: 20,
-    marginBottom: 5,
-  },
-  socialLinks: {
-    flexDirection: 'row',
-    marginTop: 10,
-    gap: 12,
-  },
-  socialLink: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  footerLink: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
-    marginBottom: 8,
-  },
-  footerLinkHover: {
-    color: '#CFB53B',
-  },
-  contactInfoItem: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
-    lineHeight: 20,
-    marginBottom: 15,
-  },
-  copyright: {
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255, 255, 255, 0.1)',
-    paddingTop: 20,
-    marginTop: 10,
-  },
-  copyrightText: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.7)',
-    textAlign: 'center',
-  },
   // New styles for dropdown and search
   dropdownContainer: {
     position: 'relative',
@@ -879,6 +682,10 @@ const styles = StyleSheet.create({
   dropdownItem: {
     paddingVertical: 10,
     paddingHorizontal: 15,
+  },
+  dropdownSeparator: {
+    height: 1,
+    backgroundColor: '#eee',
   },
   dropdownItemText: {
     fontSize: 14,

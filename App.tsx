@@ -2,7 +2,9 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
-import { RootStackParamList } from './types/navigation';
+import { RootStackParamList } from './navigation/Navigation';
+import SignupScreen from './screens/SignupScreen';
+import LoginScreen from './screens/LoginScreen';
 import { View, Text } from 'react-native';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -20,8 +22,8 @@ function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={HomeScreen} />
         {/* Add other screens here as you create them. For now, they can be placeholders. */}
-        <Stack.Screen name="Login" component={PlaceholderScreen} />
-        <Stack.Screen name="Signup" component={PlaceholderScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="CourseSelection" component={PlaceholderScreen} />
         <Stack.Screen name="Contact" component={PlaceholderScreen} />
         <Stack.Screen name="AboutScreen" component={PlaceholderScreen} />
