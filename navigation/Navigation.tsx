@@ -8,7 +8,6 @@ export type RootStackParamList = {
   CourseSelection: { searchQuery?: string };
   Login: undefined;
   Signup: undefined;
-  MeetTheTeam: undefined;
   FeeCalculationResults: {
     personalInfo: {
       name: string;

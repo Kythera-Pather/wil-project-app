@@ -11,8 +11,8 @@ const HomeScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProp>();
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleNavigation = (screen: keyof RootStackParamList) => {
-    navigation.navigate(screen);
+  const handleNavigation = <RouteName extends keyof RootStackParamList>(screen: RouteName, params?: RootStackParamList[RouteName]) => {
+    navigation.navigate(screen, params);
   };
 
   const openLink = (url: string) => {
@@ -35,6 +35,7 @@ const HomeScreen: React.FC = () => {
     { label: 'Six Month Courses', screen: 'SixMonthCourses' as keyof RootStackParamList },
     { label: 'Course Selection', screen: 'CourseSelection' as keyof RootStackParamList },
     { label: 'Contact Us', screen: 'Contact' as keyof RootStackParamList },
+    { label: 'About Us', screen: 'AboutScreen' as keyof RootStackParamList },
   ];
 
   return (

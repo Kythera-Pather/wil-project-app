@@ -8,6 +8,9 @@ import LoginScreen from './screens/LoginScreen';
 import SixMonthCoursesScreen from './screens/SixMonthCoursesScreen';
 import SixWeekCoursesScreen from './screens/SixWeekCoursesScreen';
 import ContactUsScreen from './screens/ContactUsScreen';
+import CourseSelectionScreen from './screens/CourseSelectionScreen'; // Import the CourseSelectionScreen
+import AboutScreen from './screens/AboutScreen';
+import ChildMindingSixWeekScreen from './screens/ChildMindingSixWeekScreen';
 import { View, Text } from 'react-native';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -27,14 +30,14 @@ function App() {
         {/* Add other screens here as you create them. For now, they can be placeholders. */}
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="CourseSelection" component={PlaceholderScreen} />
+        <Stack.Screen name="CourseSelection" component={CourseSelectionScreen} />
         <Stack.Screen name="SixMonthCourses" component={SixMonthCoursesScreen} />
         <Stack.Screen name="SixWeekCourses" component={SixWeekCoursesScreen} />
         <Stack.Screen name="Contact" component={ContactUsScreen} />
-        <Stack.Screen name="AboutScreen" component={PlaceholderScreen} />
+        <Stack.Screen name="AboutScreen" component={AboutScreen} />
         <Stack.Screen name="FirstAidCourse" component={PlaceholderScreen} />
         <Stack.Screen name="CookingCourse" component={PlaceholderScreen} />
-        <Stack.Screen name="ChildMindingCourse" component={PlaceholderScreen} />
+        <Stack.Screen name="ChildMindingCourse" component={ChildMindingSixWeekScreen} />
         <Stack.Screen name="CourseDetail" component={PlaceholderScreen} />
       </Stack.Navigator>
     </NavigationContainer>

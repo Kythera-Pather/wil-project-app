@@ -25,7 +25,7 @@ const SixWeekCoursesScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProp>();
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleNavigation = (screen: keyof RootStackParamList, params?: any) => {
+  const handleNavigation = <RouteName extends keyof RootStackParamList>(screen: RouteName, params?: RootStackParamList[RouteName]) => {
     navigation.navigate(screen, params);
   };
 
@@ -120,7 +120,13 @@ const SixWeekCoursesScreen: React.FC = () => {
                 <Text style={styles.priceText}>R750</Text>
                 <Pressable
                   style={({ hovered }: PressableState) => [styles.learnMoreButton, hovered && styles.buttonHover]}
-                  onPress={() => handleNavigation('CourseDetail', { courseId: course.id, courseType: 'six-week' })}
+                  onPress={() => {
+                    if (course.id === 'child-minding') {
+                      handleNavigation('ChildMindingCourse');
+                    } else {
+                      handleNavigation('CourseDetail', { courseId: course.id, courseType: 'six-week' });
+                    }
+                  }}
                 >
                   <Text style={styles.learnMoreButtonText}>Learn More</Text>
                 </Pressable>

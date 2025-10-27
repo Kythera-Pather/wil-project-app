@@ -26,7 +26,7 @@ const SixMonthCoursesScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProp>();
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleNavigation = (screen: keyof RootStackParamList, params?: any) => {
+  const handleNavigation = <RouteName extends keyof RootStackParamList>(screen: RouteName, params?: RootStackParamList[RouteName]) => {
     navigation.navigate(screen, params);
   };
 

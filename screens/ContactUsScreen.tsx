@@ -1,38 +1,36 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput, Pressable, Alert } from 'react-native';
+import { View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet, Linking, Alert, Image, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AppNavigationProp, RootStackParamList } from '../navigation/Navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ContactUsScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProp>();
-
-  // Form state
+  const [showDropdown, setShowDropdown] = useState(false);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
 
-  // FAQ state
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const faqItems = [
+    { question: "How do I enroll in a course?", answer: "You can enroll in our courses by visiting our Course Selection page, choosing your desired courses, and following the enrollment process. Alternatively, you can visit our campus during office hours or contact us for assistance." },
+    { question: "What payment methods do you accept?", answer: "We accept various payment methods including cash, bank transfers, and credit/debit cards. We also offer payment plans for certain courses." },
+    { question: "Do you offer any financial assistance?", answer: "Yes, we offer financial assistance and scholarships for eligible students. Please contact our admissions office for more information about available options and eligibility criteria." },
+    { question: "Can I visit the campus before enrolling?", answer: "Absolutely! We encourage prospective students to visit our campus. Please contact us to schedule a campus tour at your convenience." },
+  ];
 
-  const handleNavigation = (screen: keyof RootStackParamList, params?: any) => {
+  const navLinks: { name: keyof RootStackParamList, label: string }[] = [
+    { name: 'Home', label: 'Home' },
+    { name: 'SixMonthCourses', label: 'Six-Month Courses' },
+    { name: 'SixWeekCourses', label: 'Six-Week Courses' },
+    { name: 'AboutScreen', label: 'About Us' },
+    { name: 'CourseSelection', label: 'Course Selection' },
+    { name: 'Contact', label: 'Contact Us' },
+  ];
+
+  const handleNavigation = <RouteName extends keyof RootStackParamList>(screen: RouteName, params?: RootStackParamList[RouteName]) => {
     navigation.navigate(screen, params);
-  };
-
-  const handleSendMessage = () => {
-    if (!fullName || !email || !subject || !message) {
-      Alert.alert('Incomplete Form', 'Please fill in all required fields.');
-      return;
-    }
-    Alert.alert('Message Sent', 'Thank you for contacting us! We will get back to you shortly.');
-    // Clear form
-    setFullName('');
-    setEmail('');
-    setPhone('');
-    setSubject('');
-    setMessage('');
   };
 
   const handleLogin = () => {
@@ -45,57 +43,68 @@ const ContactUsScreen: React.FC = () => {
     navigation.navigate('Signup');
   };
 
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const toggleFaq = (index: number) => {
-    setExpandedFaq(expandedFaq === index ? null : index);
+  const openLink = (url: string) => {
+    Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
   };
 
-  const faqItems = [
-    { question: 'How do I enroll in a course?', answer: 'You can enroll by visiting our "Course Selection" page, choosing your desired courses, and following the on-screen instructions to complete the enrollment and payment process.' },
-    { question: 'What payment method do you accept?', answer: 'We accept various payment methods including credit/debit cards, EFT (Electronic Funds Transfer), and direct bank deposits. All options will be available at checkout.' },
-    { question: 'Do you offer any financial assistance?', answer: 'We offer flexible payment plans and occasionally have sponsorship opportunities. Please contact our admissions office at admissions@empoweringthenation.org.za for more information.' },
-    { question: 'Can I visit the campus before enrolling?', answer: 'Yes, we welcome prospective students to visit our campus. Please call us at +27 11 123 4567 to schedule a tour during our office hours.' },
-  ];
+  const handleSubmit = () => {
+    if (!fullName || !email || !subject || !message) {
+      Alert.alert('Error', 'Please fill in all required fields.');
+      return;
+    }
 
-  const navLinks = [
-    { label: 'Home', screen: 'Home' as keyof RootStackParamList },
-    { label: 'Six Week Courses', screen: 'SixWeekCourses' as keyof RootStackParamList },
-    { label: 'Six Month Courses', screen: 'SixMonthCourses' as keyof RootStackParamList },
-    { label: 'Course Selection', screen: 'CourseSelection' as keyof RootStackParamList },
-    { label: 'Contact Us', screen: 'Contact' as keyof RootStackParamList },
-  ];
+    Alert.alert('Thank You', 'Your message has been sent. We will get back to you soon.');
+    setFullName('');
+    setEmail('');
+    setPhone('');
+    setSubject('');
+    setMessage('');
+  };
+
+  const openMap = () => {
+    const address = '123 Education St, Johannesburg, South Africa';
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    Linking.openURL(url).catch(err => Alert.alert('Error', 'Could not open maps.'));
+  };
+
+  const callPhone = (number: string) => {
+    Linking.openURL(`tel:${number}`).catch(() => Alert.alert('Error', 'Could not make a call.'));
+  };
+
+  const sendEmail = (recipient: string) => {
+    Linking.openURL(`mailto:${recipient}`).catch(() => Alert.alert('Error', 'Could not open email client.'));
+  };
 
   return (
     <View style={styles.fullScreenContainer}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.headerIconContainer}>
-            <Icon name="bars" size={24} color="#000" />
-          </TouchableOpacity>
-          <View style={styles.headerTitleContainer}>
-            <Image source={require('../assets/images/LOGO.png')} style={styles.logo} />
-            <Text style={styles.orgName}>Empowering the Nation</Text>
-          </View>
-          <View style={styles.headerIconContainer}>
-            <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
-              <Icon name="user" size={24} color="#000" />
-            </TouchableOpacity>
-            {showDropdown && (
-              <View style={styles.dropdownMenu}>
-                <TouchableOpacity style={styles.dropdownItem} onPress={handleLogin}><Text style={styles.dropdownItemText}>Login</Text></TouchableOpacity>
-                <View style={styles.dropdownSeparator} />
-                <TouchableOpacity style={styles.dropdownItem} onPress={handleSignup}><Text style={styles.dropdownItemText}>Sign Up</Text></TouchableOpacity>
-              </View>
-            )}
-          </View>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.headerIconContainer}>
+          <Icon name="bars" size={24} color="#000" />
+        </TouchableOpacity>
+        <View style={styles.headerTitleContainer}>
+          <Image source={require('../assets/images/LOGO.png')} style={styles.logo} />
+          <Text style={styles.orgName}>Empowering the Nation</Text>
         </View>
+        <View style={styles.headerIconContainer}>
+          <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
+            <Icon name="user" size={24} color="#000" />
+          </TouchableOpacity>
+          {showDropdown && (
+            <View style={styles.dropdownMenu}>
+              <TouchableOpacity style={styles.dropdownItem} onPress={handleLogin}><Text style={styles.dropdownItemText}>Login</Text></TouchableOpacity>
+              <View style={styles.dropdownSeparator} />
+              <TouchableOpacity style={styles.dropdownItem} onPress={handleSignup}><Text style={styles.dropdownItemText}>Sign Up</Text></TouchableOpacity>
+            </View>
+          )}
+        </View>
+      </View>
 
         {/* Mobile Navigation */}
         <View style={styles.mobileNavContainer}>
           {navLinks.map((link) => (
-            <TouchableOpacity key={link.screen} style={styles.mobileNavLink} onPress={() => handleNavigation(link.screen)}>
+            <TouchableOpacity key={link.name} style={styles.mobileNavLink} onPress={() => handleNavigation(link.name)}>
               <Text style={styles.mobileNavLinkText}>{link.label}</Text>
             </TouchableOpacity>
           ))}
@@ -103,90 +112,91 @@ const ContactUsScreen: React.FC = () => {
 
         {/* 1. Header and Contact Form */}
         <View style={styles.section}>
-          <Text style={styles.pageContext}>Contact Us page</Text>
           <Text style={styles.mainHeading}>Get In Touch With Us</Text>
           <Text style={styles.introText}>
-            We're here to answer any questions you may have about our courses, enrollment process, or anything else.
+            We're here to answer any questions you may have about our courses, enrollment process, or anything else. Reach out to us and we'll respond as soon as we can.
           </Text>
-
-          <Text style={styles.subHeading}>Send Us a Message</Text>
-          <TextInput style={styles.input} placeholder="Full Name" value={fullName} onChangeText={setFullName} />
-          <TextInput style={styles.input} placeholder="Email Address" value={email} onChangeText={setEmail} keyboardType="email-address" />
-          <TextInput style={styles.input} placeholder="Phone Number" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
-          <TextInput style={styles.input} placeholder="Subject" value={subject} onChangeText={setSubject} />
-          <TextInput style={[styles.input, styles.textArea]} placeholder="Message" value={message} onChangeText={setMessage} multiline />
-
-          <Pressable style={styles.ctaButton} onPress={handleSendMessage}>
-            <Text style={styles.ctaButtonText}>SEND MESSAGE</Text>
-          </Pressable>
         </View>
 
-        {/* 2. Contact Information */}
-        <View style={styles.section}>
-          <Text style={styles.subHeading}>Contact Information</Text>
-          <View style={styles.contactInfoContainer}>
+        {/* Contact Container */}
+        <View style={styles.contactContainer}>
+          {/* Contact Information */}
+          <View style={styles.contactInfo}>
+            <Text style={styles.subHeading}>Contact Information</Text>
+            <Pressable style={styles.contactItem} onPress={openMap}>
+              <Icon name="map-marker" size={24} color="#CFB53B" style={styles.contactIcon} />
+              <View style={styles.contactDetails}>
+                <Text style={styles.contactType}>Address</Text>
+                <Text style={styles.contactValue}>123 Education St, Johannesburg, South Africa</Text>
+              </View>
+            </Pressable>
+            <Pressable style={styles.contactItem} onPress={() => callPhone('+27111234567')}>
+              <Icon name="phone" size={24} color="#CFB53B" style={styles.contactIcon} />
+              <View style={styles.contactDetails}>
+                <Text style={styles.contactType}>Phone</Text>
+                <Text style={styles.contactValue}>+27 11 123 4567 (Landline)</Text>
+                <Text style={styles.contactValue}>+27 82 123 4567 (Mobile)</Text>
+              </View>
+            </Pressable>
+            <Pressable style={styles.contactItem} onPress={() => sendEmail('info@empoweringthenation.org.za')}>
+              <Icon name="envelope" size={24} color="#CFB53B" style={styles.contactIcon} />
+              <View style={styles.contactDetails}>
+                <Text style={styles.contactType}>Email</Text>
+                <Text style={styles.contactValue}>info@empoweringthenation.org.za</Text>
+                <Text style={styles.contactValue}>admissions@empoweringthenation.org.za</Text>
+              </View>
+            </Pressable>
             <View style={styles.contactItem}>
-              <Icon name="map-marker" size={20} color="#004225" style={styles.contactIcon} />
-              <Text style={styles.contactText}>123 Main St, Johannesburg, South Africa</Text>
-            </View>
-            <View style={styles.contactItem}>
-              <Icon name="phone" size={20} color="#004225" style={styles.contactIcon} />
-              <Text style={styles.contactText}>+27 11 123 4567 (Landline)</Text>
-            </View>
-            <View style={styles.contactItem}>
-              <Icon name="mobile" size={24} color="#004225" style={styles.contactIcon} />
-              <Text style={styles.contactText}>+27 82 789 123 (Mobile)</Text>
-            </View>
-            <View style={styles.contactItem}>
-              <Icon name="envelope" size={20} color="#004225" style={styles.contactIcon} />
-              <Text style={styles.contactText}>info@empoweringthenation.org.za</Text>
-            </View>
-            <View style={styles.contactItem}>
-              <Icon name="graduation-cap" size={20} color="#004225" style={styles.contactIcon} />
-              <Text style={styles.contactText}>admissions@empoweringthenation.org.za</Text>
-            </View>
-            <View style={styles.contactItem}>
-              <Icon name="clock-o" size={20} color="#004225" style={styles.contactIcon} />
-              <View>
-                <Text style={styles.contactText}>Mon - Fri: 08:00 - 17:00</Text>
-                <Text style={styles.contactText}>Sat: 09:00 - 13:00</Text>
-                <Text style={styles.contactText}>Sun: Closed</Text>
+              <Icon name="clock-o" size={24} color="#CFB53B" style={styles.contactIcon} />
+              <View style={styles.contactDetails}>
+                <Text style={styles.contactType}>Office Hours</Text>
+                <Text style={styles.contactValue}>Mon - Fri: 08:00 - 17:00</Text>
+                <Text style={styles.contactValue}>Sat: 09:00 - 13:00</Text>
+                <Text style={styles.contactValue}>Sun: Closed</Text>
               </View>
             </View>
           </View>
-        </View>
 
-        {/* 3. Location Map */}
-        <View style={styles.section}>
-          <Text style={styles.subHeading}>Find Us</Text>
-          <Text style={styles.introText}>Visit our campus or training centers. See the map below for directions.</Text>
-          <View style={styles.mapPlaceholder}>
-            <Icon name="map-pin" size={40} color="#DB4437" />
-            <Text style={styles.mapText}>Map of 1 George Ross St, Johannesburg</Text>
+          {/* Contact Form */}
+          <View style={styles.contactForm}>
+            <Text style={styles.subHeading}>Send Us a Message</Text>
+            <TextInput style={styles.input} placeholder="Full Name *" value={fullName} onChangeText={setFullName} />
+            <TextInput style={styles.input} placeholder="Email Address *" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
+            <TextInput style={styles.input} placeholder="Phone Number" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
+            <TextInput style={styles.input} placeholder="Subject *" value={subject} onChangeText={setSubject} />
+            <TextInput style={[styles.input, styles.textArea]} placeholder="Your Message *" value={message} onChangeText={setMessage} multiline numberOfLines={4} />
+            <Pressable style={styles.ctaButton} onPress={handleSubmit}>
+              <Text style={styles.ctaButtonText}>SEND MESSAGE</Text>
+            </Pressable>
           </View>
         </View>
 
-        {/* 4. FAQ */}
+        {/* Location Map */}
+        <View style={styles.section}>
+          <Text style={styles.mainHeading}>Find Us</Text>
+          <Text style={styles.introText}>Visit our campus or training centers. See the map below for directions.</Text>
+          <TouchableOpacity onPress={openMap}>
+            <View style={styles.mapPlaceholder}>
+              <Icon name="map-pin" size={40} color="#DB4437" />
+              <Text style={styles.mapText}>Map would be displayed here (Google Maps integration)</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* FAQ Section */}
         <View style={styles.section}>
           <Text style={styles.mainHeading}>Frequently Asked Questions</Text>
           {faqItems.map((item, index) => (
-            <View key={index}>
-              <TouchableOpacity style={styles.faqHeader} onPress={() => toggleFaq(index)}>
-                <Text style={styles.faqQuestion}>{item.question}</Text>
-                <Icon name={expandedFaq === index ? 'chevron-up' : 'chevron-down'} size={16} color="#333" />
-              </TouchableOpacity>
-              {expandedFaq === index && (
-                <View style={styles.faqAnswerContainer}>
-                  <Text style={styles.faqAnswer}>{item.answer}</Text>
-                </View>
-              )}
+            <View key={index} style={styles.faqItemStatic}>
+              <Text style={styles.faqQuestionStatic}>{item.question}</Text>
+              <Text style={styles.faqAnswerStatic}>{item.answer}</Text>
             </View>
           ))}
         </View>
 
       </ScrollView>
 
-      {/* 5. Persistent Bottom Navigation */}
+      {/* Persistent Bottom Navigation */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Home')}>
           <Icon name="home" size={24} color="#004225" />
@@ -216,6 +226,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   contentContainer: {
     paddingBottom: 100, // Space for bottom nav
@@ -229,12 +240,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
-  },
-  orgName: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#004225',
-    marginTop: 4,
+    zIndex: 1000,
   },
   headerIconContainer: {
     width: 40,
@@ -244,6 +250,17 @@ const styles = StyleSheet.create({
   headerTitleContainer: {
     flex: 1,
     alignItems: 'center',
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  orgName: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#004225',
+    marginTop: 4,
   },
   mobileNavContainer: {
     paddingHorizontal: 20,
@@ -262,19 +279,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#004225',
   },
-  logo: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
   section: {
-    padding: 20,
-  },
-  pageContext: {
-    fontSize: 14,
-    color: '#6c757d',
-    marginBottom: 10,
-    textAlign: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
   mainHeading: {
     fontSize: 26,
@@ -283,25 +290,67 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderBottomWidth: 4,
     borderBottomColor: '#CFB53B',
-    paddingBottom: 5,
+    paddingBottom: 10,
     marginBottom: 15,
     alignSelf: 'center',
   },
   subHeading: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#004225',
+    paddingBottom: 10,
     borderBottomWidth: 2,
     borderBottomColor: '#CFB53B',
-    paddingBottom: 5,
-    marginBottom: 20,
-    alignSelf: 'flex-start',
+    marginBottom: 25,
   },
   introText: {
     fontSize: 16,
     color: '#333',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
+    lineHeight: 26,
+  },
+  contactContainer: {
+    paddingHorizontal: 20,
+  },
+  contactInfo: {
+    backgroundColor: '#f8f9fa',
+    padding: 20,
+    borderRadius: 8,
+    marginBottom: 30,
+  },
+  contactItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 25,
+  },
+  contactIcon: {
+    marginRight: 15,
+    marginTop: 2,
+    width: 24,
+    textAlign: 'center',
+  },
+  contactDetails: {
+    flex: 1,
+  },
+  contactType: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#004225',
+    marginBottom: 5,
+  },
+  contactValue: {
+    fontSize: 15,
+    color: '#333',
+    lineHeight: 22,
+  },
+  contactForm: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#eee',
+    marginBottom: 30,
   },
   input: {
     borderWidth: 1,
@@ -310,7 +359,7 @@ const styles = StyleSheet.create({
     padding: 15,
     fontSize: 16,
     marginBottom: 15,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
   },
   textArea: {
     height: 120,
@@ -328,27 +377,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000',
   },
-  contactInfoContainer: {
-    marginTop: 10,
-  },
-  contactItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 15,
-  },
-  contactIcon: {
-    marginRight: 15,
-    width: 24,
-    textAlign: 'center',
-    marginTop: 2,
-  },
-  contactText: {
-    fontSize: 16,
-    color: '#333',
-    flex: 1,
-  },
   mapPlaceholder: {
-    height: 250,
+    height: 200,
     backgroundColor: '#e9ecef',
     borderRadius: 8,
     justifyContent: 'center',
@@ -359,36 +389,25 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: '#6c757d',
     fontWeight: 'bold',
+    textAlign: 'center',
+    paddingHorizontal: 10,
   },
-  faqHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa',
-    padding: 20,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#eee',
-    marginBottom: 10,
-  },
-  faqQuestion: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    flex: 1,
-  },
-  faqAnswerContainer: {
-    padding: 20,
+  faqItemStatic: {
     backgroundColor: '#fff',
+    borderRadius: 8,
+    marginBottom: 20,
     borderWidth: 1,
-    borderTopWidth: 0,
     borderColor: '#eee',
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    marginTop: -10,
+    overflow: 'hidden',
+    padding: 20,
+  },
+  faqQuestionStatic: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#004225',
     marginBottom: 10,
   },
-  faqAnswer: {
+  faqAnswerStatic: {
     fontSize: 15,
     lineHeight: 22,
     color: '#555',
@@ -441,7 +460,7 @@ const styles = StyleSheet.create({
   },
   dropdownItemText: {
     fontSize: 14,
-    color: '#002a18',
+    color: '#004225',
     fontWeight: '500',
   },
 });
