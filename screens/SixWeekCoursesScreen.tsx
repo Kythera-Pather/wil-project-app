@@ -123,9 +123,14 @@ const SixWeekCoursesScreen: React.FC = () => {
                   onPress={() => {
                     if (course.id === 'child-minding') {
                       handleNavigation('ChildMindingCourse');
+                    } else if (course.id === 'garden-maintenance') {
+                      handleNavigation('GardenMaintenanceCourse');
+                    } else if (course.id === 'cooking') {
+                      handleNavigation('CookingCourse');
                     } else {
                       handleNavigation('CourseDetail', { courseId: course.id, courseType: 'six-week' });
                     }
+                    
                   }}
                 >
                   <Text style={styles.learnMoreButtonText}>Learn More</Text>

@@ -11,6 +11,9 @@ import ContactUsScreen from './screens/ContactUsScreen';
 import CourseSelectionScreen from './screens/CourseSelectionScreen'; // Import the CourseSelectionScreen
 import AboutScreen from './screens/AboutScreen';
 import ChildMindingSixWeekScreen from './screens/ChildMindingSixWeekScreen';
+import CookingSixWeekScreen from './screens/CookingSixWeekScreen';
+import GardenMaintenanceSixWeekScreen from './screens/GardenMaintenanceSixWeekScreen';
+
 import { View, Text } from 'react-native';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -36,8 +39,9 @@ function App() {
         <Stack.Screen name="Contact" component={ContactUsScreen} />
         <Stack.Screen name="AboutScreen" component={AboutScreen} />
         <Stack.Screen name="FirstAidCourse" component={PlaceholderScreen} />
-        <Stack.Screen name="CookingCourse" component={PlaceholderScreen} />
+        <Stack.Screen name="CookingCourse" component={CookingSixWeekScreen} />
         <Stack.Screen name="ChildMindingCourse" component={ChildMindingSixWeekScreen} />
+        <Stack.Screen name="GardenMaintenanceCourse" component={GardenMaintenanceSixWeekScreen} />
         <Stack.Screen name="CourseDetail" component={PlaceholderScreen} />
       </Stack.Navigator>
     </NavigationContainer>
