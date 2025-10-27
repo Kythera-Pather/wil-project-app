@@ -7,6 +7,7 @@ import SignupScreen from './screens/SignupScreen';
 import LoginScreen from './screens/LoginScreen';
 import SixMonthCoursesScreen from './screens/SixMonthCoursesScreen';
 import SixWeekCoursesScreen from './screens/SixWeekCoursesScreen';
+import ContactUsScreen from './screens/ContactUsScreen';
 import { View, Text } from 'react-native';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -29,7 +30,7 @@ function App() {
         <Stack.Screen name="CourseSelection" component={PlaceholderScreen} />
         <Stack.Screen name="SixMonthCourses" component={SixMonthCoursesScreen} />
         <Stack.Screen name="SixWeekCourses" component={SixWeekCoursesScreen} />
-        <Stack.Screen name="Contact" component={PlaceholderScreen} />
+        <Stack.Screen name="Contact" component={ContactUsScreen} />
         <Stack.Screen name="AboutScreen" component={PlaceholderScreen} />
         <Stack.Screen name="FirstAidCourse" component={PlaceholderScreen} />
         <Stack.Screen name="CookingCourse" component={PlaceholderScreen} />
