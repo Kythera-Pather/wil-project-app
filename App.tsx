@@ -13,17 +13,14 @@ import AboutScreen from './screens/AboutScreen';
 import ChildMindingSixWeekScreen from './screens/ChildMindingSixWeekScreen';
 import CookingSixWeekScreen from './screens/CookingSixWeekScreen';
 import GardenMaintenanceSixWeekScreen from './screens/GardenMaintenanceSixWeekScreen';
-
-import { View, Text } from 'react-native';
-
+import FirstAidCourseScreen from './screens/FirstAidSixMonthScreen';
+import SewingCourseScreen from './screens/SewingSixMonthScreen';
+import LandscapingCourseScreen from './screens/LandscapingSixMonthScreen';
+import LifeSkillsCourseScreen from './screens/LifeSkillSixMonthScreen';
+import CourseDetailScreen from './screens/CourseDetailScreen';
+import FeeCalculationResultsScreen from './screens/FeeCalculator';
 const Stack = createStackNavigator<RootStackParamList>();
 
-// Placeholder screen for components that are not yet created
-const PlaceholderScreen = ({ route }: any) => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Screen: {route.name}</Text>
-  </View>
-);
 
 function App() {
   return (
@@ -38,11 +35,15 @@ function App() {
         <Stack.Screen name="SixWeekCourses" component={SixWeekCoursesScreen} />
         <Stack.Screen name="Contact" component={ContactUsScreen} />
         <Stack.Screen name="AboutScreen" component={AboutScreen} />
-        <Stack.Screen name="FirstAidCourse" component={PlaceholderScreen} />
+        <Stack.Screen name="FirstAidCourse" component={FirstAidCourseScreen} />
         <Stack.Screen name="CookingCourse" component={CookingSixWeekScreen} />
         <Stack.Screen name="ChildMindingCourse" component={ChildMindingSixWeekScreen} />
         <Stack.Screen name="GardenMaintenanceCourse" component={GardenMaintenanceSixWeekScreen} />
-        <Stack.Screen name="CourseDetail" component={PlaceholderScreen} />
+        <Stack.Screen name="SewingCourse" component={SewingCourseScreen} />
+        <Stack.Screen name="LandscapingCourse" component={LandscapingCourseScreen} />
+        <Stack.Screen name="LifeSkillsCourse" component={LifeSkillsCourseScreen} />
+        <Stack.Screen name="FeeCalculationResults" component={FeeCalculationResultsScreen} />
+        <Stack.Screen name="CourseDetail" component={CourseDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

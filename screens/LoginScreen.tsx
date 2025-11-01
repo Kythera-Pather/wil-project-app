@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput,
 import { useNavigation } from '@react-navigation/native';
 import { AppNavigationProp, RootStackParamList } from '../navigation/Navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import BottomNav from '../BottomNav';
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProp>();
@@ -12,7 +13,7 @@ const LoginScreen: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleNavigation = (screen: keyof RootStackParamList) => {
-    navigation.navigate(screen);
+       navigation.navigate({ name: screen, params: undefined } as any);
   };
 
   const handleLogin = () => {
@@ -66,7 +67,7 @@ const LoginScreen: React.FC = () => {
             <Text style={styles.toggleText}>Remember me</Text>
             <Switch
               trackColor={{ false: "#767577", true: "#CFB53B" }}
-              thumbColor={rememberMe ? "#f4f3f4" : "#f4f3f4"}
+              thumbColor="#f4f3f4"
               onValueChange={setRememberMe}
               value={rememberMe}
             />
@@ -93,25 +94,7 @@ const LoginScreen: React.FC = () => {
 
       </ScrollView>
 
-      {/* 6. Persistent Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Home')}>
-          <Icon name="home" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('CourseSelection')}>
-          <Icon name="file-text-o" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Courses</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Home')}>
-          <Icon name="quote-right" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Quotes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Contact')}>
-          <Icon name="phone" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Contact</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNav />
     </View>
   );
 };
@@ -122,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   container: {
-    flex: 1,
+    flex: 1, backgroundColor: '#fff'
   },
   contentContainer: {
     padding: 20,
@@ -208,28 +191,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     textAlign: 'center',
-  },
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-    paddingVertical: 8,
-    height: 70,
-  },
-  bottomNavItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bottomNavText: {
-    fontSize: 12,
-    color: '#004225',
-    marginTop: 4,
   },
 });
 

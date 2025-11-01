@@ -1,32 +1,18 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Linking, Pressable, ImageBackground, PressableStateCallbackType, TextInput, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Pressable, ImageBackground, PressableStateCallbackType } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList, AppNavigationProp } from '../navigation/Navigation';
-import { sixMonthCourses, sixWeekCourses } from '../types/courses';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import HeaderComponent from '../HeaderComponent';
+import BottomNav from '../BottomNav';
 
 type PressableState = PressableStateCallbackType & { hovered?: boolean };
 
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProp>();
-  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleNavigation = <RouteName extends keyof RootStackParamList>(screen: RouteName, params?: RootStackParamList[RouteName]) => {
-    navigation.navigate(screen, params);
-  };
-
-  const openLink = (url: string) => {
-    Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
-  };
-
-  const handleLogin = () => {
-    setShowDropdown(false);
-    navigation.navigate('Login');
-  };
-
-  const handleSignup = () => {
-    setShowDropdown(false);
-    navigation.navigate('Signup');
+    navigation.navigate({ name: screen, params: params } as any);
   };
 
   const navLinks = [
@@ -41,37 +27,7 @@ const HomeScreen: React.FC = () => {
   return (
     <View style={styles.fullScreenContainer}>
       <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.contentContainer}>
-        {/* Header */}
-      <View style={styles.header}>
-        {/* Hamburger Menu Icon (placeholder) */}
-        <TouchableOpacity style={styles.headerIconContainer}>
-          <Icon name="bars" size={24} color="#000" />
-        </TouchableOpacity>
-
-        {/* Logo and Brand Name */}
-        <View style={styles.headerTitleContainer}>
-          <Image source={require('../assets/images/LOGO.png')} style={styles.logo} />
-          <Text style={styles.orgName}>Empowering the Nation</Text>
-        </View>
-
-        {/* User Icon and Dropdown */}
-        <View style={styles.headerIconContainer}>
-          <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
-            <Icon name="user" size={24} color="#000" />
-          </TouchableOpacity>
-          {showDropdown && (
-            <View style={styles.dropdownMenu}>
-              <TouchableOpacity style={styles.dropdownItem} onPress={handleLogin}>
-                <Text style={styles.dropdownItemText}>Login</Text>
-              </TouchableOpacity>
-              <View style={styles.dropdownSeparator} />
-              <TouchableOpacity style={styles.dropdownItem} onPress={handleSignup}>
-                <Text style={styles.dropdownItemText}>Sign Up</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      </View>
+        <HeaderComponent />
 
       {/* Mobile Navigation Column */}
       <View style={styles.mobileNavContainer}>
@@ -101,7 +57,7 @@ const HomeScreen: React.FC = () => {
             <View style={styles.heroCtaContainer}>
               <Text style={styles.heroSubtitle}>Transform your future with our specialized skills training programs designed for domestic workers and gardeners.</Text>
               <Pressable
-                style={({ hovered }: PressableState) => [styles.heroBtn, hovered && styles.btnHover]}
+                style={({ pressed }: PressableStateCallbackType) => [styles.heroBtn, pressed && styles.btnHover]}
                 onPress={() => handleNavigation('CourseSelection')}>
                 <Text style={styles.btnText}>EXPLORE OUR COURSES</Text>
               </Pressable>
@@ -166,7 +122,7 @@ const HomeScreen: React.FC = () => {
               <Text style={styles.courseTitle}>First Aid Training</Text>
               <Text style={styles.courseText}>Learn essential life-saving skills with our comprehensive first aid course.</Text>
               <Pressable
-                style={({ hovered }: PressableState) => [styles.btnOutline, hovered && styles.btnOutlineHover]}
+                style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
                 onPress={() => handleNavigation('FirstAidCourse')}
               >
                 <Text style={styles.btnOutlineText}>LEARN MORE</Text>
@@ -185,7 +141,7 @@ const HomeScreen: React.FC = () => {
               <Text style={styles.courseTitle}>Cooking & Nutrition</Text>
               <Text style={styles.courseText}>Master the art of preparing nutritious, balanced meals for modern households.</Text>
               <Pressable
-                style={({ hovered }: PressableState) => [styles.btnOutline, hovered && styles.btnOutlineHover]}
+                style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
                 onPress={() => handleNavigation('CookingCourse')}
               >
                 <Text style={styles.btnOutlineText}>LEARN MORE</Text>
@@ -204,7 +160,7 @@ const HomeScreen: React.FC = () => {
               <Text style={styles.courseTitle}>Child Minding</Text>
               <Text style={styles.courseText}>Gain expertise in early childhood development and create safe environments for children.</Text>
               <Pressable
-                style={({ hovered }: PressableState) => [styles.btnOutline, hovered && styles.btnOutlineHover]}
+                style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
                 onPress={() => handleNavigation('ChildMindingCourse')}
               >
                 <Text style={styles.btnOutlineText}>LEARN MORE</Text>
@@ -212,8 +168,7 @@ const HomeScreen: React.FC = () => {
             </View>
           </View>
         </View>
-        <Pressable
-          style={({ hovered }: PressableState) => [styles.btn, { alignSelf: 'center', marginTop: 20, width:300, height:40 }, hovered && styles.btnHover]}
+        <Pressable          style={({ pressed }: PressableStateCallbackType) => [styles.btn, { alignSelf: 'center', marginTop: 20, width:300, height:40 }, pressed && styles.btnHover]}
           onPress={() => handleNavigation('CourseSelection')}
         >
           <Text style={styles.viewAllBtnText}>VIEW ALL COURSES</Text>
@@ -224,7 +179,7 @@ const HomeScreen: React.FC = () => {
       <View style={[styles.section, styles.aboutSection]}>
         <Text style={styles.sectionTitle}>Our Story</Text>
         <Text style={styles.bodyText}>
-          Founded in 2018 by Precious Radebe, <Text style={{fontWeight: 'bold'}}>Empowering the Nation</Text> was born from personal experience—watching family members struggle due to lack of formal education and skills training. 
+          Founded in 2018 by Precious Radebe, <Text style={{fontWeight: 'bold'}}>Empowering the Nation</Text> was born from personal experience—watching family members struggle due to lack of formal education and skills training.
           Our initiative provides the chances they never had: opportunities to rise above circumstances and create better futures.
         </Text>
         <Text style={styles.bodyText}>
@@ -233,7 +188,7 @@ const HomeScreen: React.FC = () => {
           Our programs change this by offering specialized training that enhances skills, earning potential, dignity, and self-confidence.
         </Text>
         <Pressable
-          style={({ hovered }: PressableState) => [styles.btn, styles.goldBtn, { alignSelf: 'center', marginTop: 20}, hovered && styles.goldBtnHover]}
+          style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, { alignSelf: 'center', marginTop: 20}, pressed && styles.goldBtnHover]}
           onPress={() => handleNavigation('AboutScreen')}
         >
           <Text style={styles.goldBtnText}>LEARN MORE ABOUT US</Text>
@@ -264,7 +219,7 @@ const HomeScreen: React.FC = () => {
         <Text style={styles.ctaTitle}>Ready to Transform Your Future?</Text>
         <Text style={styles.ctaText}>Join hundreds of individuals who have elevated their skills and changed their lives through our programs.</Text>
         <Pressable
-          style={({ hovered }: PressableState) => [styles.btn, styles.goldBtn, hovered && styles.goldBtnHover]}
+          style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, pressed && styles.goldBtnHover]}
           onPress={() => handleNavigation('Signup')}
         >
           <Text style={styles.goldBtnText}>ENROLL TODAY</Text>
@@ -272,24 +227,7 @@ const HomeScreen: React.FC = () => {
       </View>
 
       </ScrollView>
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Home')}>
-          <Icon name="home" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('CourseSelection')}>
-          <Icon name="file-text-o" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Courses</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('CourseSelection')}>
-          <Icon name="quote-right" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Quotes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Contact')}>
-          <Icon name="phone" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Contact</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNav />
     </View>
   );
 };
@@ -297,7 +235,7 @@ const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   fullScreenContainer: {
     flex: 1,
-    backgroundColor: '#ffffffff',
+    backgroundColor: '#fff',
   },
   contentContainer: {
     paddingBottom: 80, // Add space for the persistent bottom navigation
@@ -305,32 +243,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     position: 'relative',
-  },
-  header: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    zIndex: 1000,
-  },
-  headerIconContainer: {
-    width: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerTitleContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
   },
   orgName: {
     fontSize: 16,
@@ -465,7 +377,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000ff',
+    color: '#000000',
     textAlign: 'center',
     marginBottom: 40,
     paddingBottom: 10,
@@ -607,7 +519,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   testimonialsTitle: {
-    color: '#fff', // Corrected from invalid 8-digit hex
+    color: '#ffffff',
     borderBottomColor: '#CFB53B',
   },
   testimonialGrid: {
@@ -649,7 +561,7 @@ const styles = StyleSheet.create({
   ctaTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000ff',
+    color: '#000000',
     textAlign: 'center',
     marginBottom: 10,
   },
@@ -658,54 +570,6 @@ const styles = StyleSheet.create({
     color: '#002a18',
     textAlign: 'center',
     marginBottom: 20,
-  },
-  // New styles for dropdown and search
-  dropdownContainer: {
-    position: 'relative',
-    zIndex: 1002,
-  },
-  dropdownMenu: {
-    position: 'absolute',
-    top: 40, // Position below the header
-    right: 0,
-    backgroundColor: '#fff',
-    borderRadius: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 8,
-    minWidth: 120,
-    borderWidth: 1,
-    borderColor: '#eee',
-    zIndex: 1003,
-  },
-  dropdownItem: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  dropdownSeparator: {
-    height: 1,
-    backgroundColor: '#eee',
-  },
-  dropdownItemText: {
-    fontSize: 14,
-    color: '#002a18',
-    fontWeight: '500',
-  },
-  // Persistent Bottom Navigation
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-    paddingVertical: 8,
-    height: 70, // Fixed height
   },
   bottomNavItem: {
     alignItems: 'center',

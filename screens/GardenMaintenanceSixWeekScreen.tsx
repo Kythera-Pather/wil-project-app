@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, Pressable, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AppNavigationProp, RootStackParamList } from '../navigation/Navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import HeaderComponent from '../HeaderComponent';
+import BottomNav from '../BottomNav';
 
 const GardenMaintenanceSixWeekScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProp>();
-  const [showDropdown, setShowDropdown] = useState(false);
 
   const curriculumData = [
     { title: "Week 1: Garden Basics", description: "Get started with the fundamentals of garden maintenance.", points: ["Introduction to garden tools and equipment", "Basic gardening techniques: planting, weeding, mulching", "Understanding seasonal garden care", "Soil preparation and fertilization methods"] },
@@ -27,48 +28,17 @@ const GardenMaintenanceSixWeekScreen: React.FC = () => {
   ];
 
   const handleNavigation = <RouteName extends keyof RootStackParamList>(screen: RouteName, params?: RootStackParamList[RouteName]) => {
-    navigation.navigate(screen, params);
-  };
-
-  const handleLogin = () => {
-    setShowDropdown(false);
-    navigation.navigate('Login');
-  };
-
-  const handleSignup = () => {
-    setShowDropdown(false);
-    navigation.navigate('Signup');
+    navigation.navigate({ name: screen, params: params } as any);
   };
 
   const handleEnroll = () => {
-    navigation.navigate('CourseSelection');
+    handleNavigation('CourseSelection');
   };
 
   return (
     <View style={styles.fullScreenContainer}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.headerIconContainer}>
-          <Icon name="bars" size={24} color="#000" />
-        </TouchableOpacity>
-        <View style={styles.headerTitleContainer}>
-          <Image source={require('../assets/images/LOGO.png')} style={styles.logo} />
-          <Text style={styles.orgName}>Empowering the Nation</Text>
-        </View>
-        <View style={styles.headerIconContainer}>
-          <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
-            <Icon name="user" size={24} color="#000" />
-          </TouchableOpacity>
-          {showDropdown && (
-            <View style={styles.dropdownMenu}>
-              <TouchableOpacity style={styles.dropdownItem} onPress={handleLogin}><Text style={styles.dropdownItemText}>Login</Text></TouchableOpacity>
-              <View style={styles.dropdownSeparator} />
-              <TouchableOpacity style={styles.dropdownItem} onPress={handleSignup}><Text style={styles.dropdownItemText}>Sign Up</Text></TouchableOpacity>
-            </View>
-          )}
-        </View>
-      </View>
+      <HeaderComponent />
 
         {/* Mobile Navigation */}
         <View style={styles.mobileNavContainer}>
@@ -201,25 +171,7 @@ const GardenMaintenanceSixWeekScreen: React.FC = () => {
       </View>
 
       </ScrollView>
-      {/* Persistent Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Home')}>
-          <Icon name="home" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('CourseSelection')}>
-          <Icon name="file-text-o" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Courses</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('CourseSelection')}>
-          <Icon name="quote-right" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Quotes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Contact')}>
-          <Icon name="phone" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Contact</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNav />
     </View>
   );
 };
@@ -231,41 +183,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   contentContainer: {
     paddingBottom: 100, // Space for bottom nav
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    zIndex: 1000,
-  },
-  headerIconContainer: {
-    width: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerTitleContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  orgName: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#004225',
-    marginTop: 4,
   },
   mobileNavContainer: {
     paddingHorizontal: 20,
@@ -504,57 +425,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#6c757d',
     textAlign: 'center',
-  },
-  dropdownMenu: {
-    position: 'absolute',
-    top: 40,
-    right: 0,
-    backgroundColor: '#fff',
-    borderRadius: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 8,
-    minWidth: 120,
-    borderWidth: 1,
-    borderColor: '#eee',
-    zIndex: 1001,
-  },
-  dropdownItem: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  dropdownSeparator: {
-    height: 1,
-    backgroundColor: '#eee',
-  },
-  dropdownItemText: {
-    fontSize: 14,
-    color: '#004225',
-    fontWeight: '500',
-  },
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-    paddingVertical: 8,
-    height: 70,
-  },
-  bottomNavItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bottomNavText: {
-    fontSize: 12,
-    color: '#004225',
-    marginTop: 4,
   },
 });
 

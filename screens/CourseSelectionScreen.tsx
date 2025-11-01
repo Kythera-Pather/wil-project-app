@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Pressable, TextInput, Alert } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Pressable, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AppNavigationProp, RootStackParamList } from '../navigation/Navigation';
 import { sixWeekCourses, sixMonthCourses } from '../types/courses';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import HeaderComponent from '../HeaderComponent';
+import BottomNav from '../BottomNav';
 
 // Define a type for our course objects for consistency
 type Course = {
@@ -15,7 +16,6 @@ type Course = {
 
 const CourseSelectionScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProp>();
-  const [showDropdown, setShowDropdown] = useState(false);
 
   // Form state
   const [fullName, setFullName] = useState('');
@@ -29,8 +29,8 @@ const CourseSelectionScreen: React.FC = () => {
   const [total, setTotal] = useState(0);
 
   const coursePrices = {
-    ...sixMonthCourses.reduce((acc, course) => ({ ...acc, [course.id]: 1500 }), {}),
-    ...sixWeekCourses.reduce((acc, course) => ({ ...acc, [course.id]: 750 }), {}),
+    ...sixMonthCourses.reduce((acc, course) => ({ ...acc, [course.id]: 1500 }), {} as { [key: string]: number }),
+    ...sixWeekCourses.reduce((acc, course) => ({ ...acc, [course.id]: 750 }), {} as { [key: string]: number }),
   };
 
   useEffect(() => {
@@ -54,17 +54,7 @@ const CourseSelectionScreen: React.FC = () => {
   }, [selectedCourses]);
 
   const handleNavigation = (screen: keyof RootStackParamList, params?: any) => {
-    navigation.navigate(screen, params);
-  };
-
-  const handleLogin = () => {
-    setShowDropdown(false);
-    navigation.navigate('Login');
-  };
-
-  const handleSignup = () => {
-    setShowDropdown(false);
-    navigation.navigate('Signup');
+    navigation.navigate({ name: screen, params: params } as any);
   };
 
   const handleCalculateFees = () => {
@@ -107,28 +97,7 @@ const CourseSelectionScreen: React.FC = () => {
   return (
     <View style={styles.fullScreenContainer}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.headerIconContainer}>
-            <Icon name="bars" size={24} color="#000" />
-          </TouchableOpacity>
-          <View style={styles.headerTitleContainer}>
-            <Image source={require('../assets/images/LOGO.png')} style={styles.logo} />
-            <Text style={styles.orgName}>Empowering the Nation</Text>
-          </View>
-          <View style={styles.headerIconContainer}>
-            <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
-              <Icon name="user" size={24} color="#000" />
-            </TouchableOpacity>
-            {showDropdown && (
-              <View style={styles.dropdownMenu}>
-                <TouchableOpacity style={styles.dropdownItem} onPress={handleLogin}><Text style={styles.dropdownItemText}>Login</Text></TouchableOpacity>
-                <View style={styles.dropdownSeparator} />
-                <TouchableOpacity style={styles.dropdownItem} onPress={handleSignup}><Text style={styles.dropdownItemText}>Sign Up</Text></TouchableOpacity>
-              </View>
-            )}
-          </View>
-        </View>
+        <HeaderComponent />
 
         {/* Mobile Navigation */}
         <View style={styles.mobileNavContainer}>
@@ -216,38 +185,15 @@ const CourseSelectionScreen: React.FC = () => {
 
       </ScrollView>
 
-      {/* Persistent Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Home')}>
-          <Icon name="home" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('CourseSelection')}>
-          <Icon name="file-text-o" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Courses</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('CourseSelection')}>
-          <Icon name="quote-right" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Quotes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavItem} onPress={() => handleNavigation('Contact')}>
-          <Icon name="phone" size={24} color="#004225" />
-          <Text style={styles.bottomNavText}>Contact</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNav />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   fullScreenContainer: { flex: 1, backgroundColor: '#fff' },
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: '#fff' },
   contentContainer: { paddingBottom: 100 },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 15, paddingVertical: 10, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#eee', zIndex: 1000 },
-  headerIconContainer: { width: 40, alignItems: 'center', justifyContent: 'center' },
-  headerTitleContainer: { flex: 1, alignItems: 'center' },
-  logo: { width: 50, height: 50, borderRadius: 25 },
-  orgName: { fontSize: 16, fontWeight: '700', color: '#004225', marginTop: 4 },
   mobileNavContainer: { paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#f8f9fa', borderBottomWidth: 1, borderBottomColor: '#eee' },
   mobileNavLink: { paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#e9ecef' },
   mobileNavLinkText: { fontSize: 16, fontWeight: '500', color: '#004225' },
@@ -399,15 +345,8 @@ const styles = StyleSheet.create({
   ctaButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#000'
   },
-  bottomNav: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#eee', paddingVertical: 8, height: 70 },
-  bottomNavItem: { alignItems: 'center', justifyContent: 'center' },
-  bottomNavText: { fontSize: 12, color: '#004225', marginTop: 4 },
-  dropdownMenu: { position: 'absolute', top: 40, right: 0, backgroundColor: '#fff', borderRadius: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 6, elevation: 8, minWidth: 120, borderWidth: 1, borderColor: '#eee', zIndex: 1001 },
-  dropdownItem: { paddingVertical: 10, paddingHorizontal: 15 },
-  dropdownSeparator: { height: 1, backgroundColor: '#eee' },
-  dropdownItemText: { fontSize: 14, color: '#002a18', fontWeight: '500' },
 });
 
 export default CourseSelectionScreen;
