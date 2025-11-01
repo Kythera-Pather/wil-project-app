@@ -236,13 +236,13 @@ const styles = StyleSheet.create({
   fullScreenContainer: {
     flex: 1,
     backgroundColor: '#fff',
+    height: '100%', // for web
   },
   contentContainer: {
-    paddingBottom: 80, // Add space for the persistent bottom navigation
+    paddingBottom: 120, // ensures space to scroll
   },
   scrollContainer: {
-    flex: 1,
-    position: 'relative',
+    position: 'relative', // remove flex:1
   },
   orgName: {
     fontSize: 16,

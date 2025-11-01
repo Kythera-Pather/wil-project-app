@@ -174,10 +174,10 @@ const styles = StyleSheet.create({
   fullScreenContainer: {
     flex: 1,
     backgroundColor: '#fff',
+    height: '100%',
   },
   container: {
-    flex: 1,
-    backgroundColor: '#fff'
+    position: 'relative',
   },
   contentContainer: {
     paddingBottom: 100, // Space for bottom nav
