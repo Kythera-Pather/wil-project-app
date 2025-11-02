@@ -170,22 +170,19 @@ const ContactUsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   fullScreenContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    height: '100%',
-  },
-  container: {
-    position: 'relative',
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f9fa',
   },
   contentContainer: {
-    paddingBottom: 100, // Space for bottom nav
+    paddingBottom: 100, // For BottomNav
+    // alignItems: 'center', // Centering is handled by child containers now
   },
   mobileNavContainer: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
+    width: '100%',
   },
   mobileNavLink: {
     paddingVertical: 12,
@@ -197,45 +194,226 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#004225',
   },
-  section: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
   mainHeading: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#000',
     textAlign: 'center',
+    marginBottom: 20,
+    paddingBottom: 10,
     borderBottomWidth: 4,
     borderBottomColor: '#CFB53B',
-    paddingBottom: 10,
-    marginBottom: 15,
-    alignSelf: 'center',
   },
   subHeading: {
     fontSize: 22,
     fontWeight: 'bold',
     color: '#004225',
+    marginBottom: 25,
     paddingBottom: 10,
     borderBottomWidth: 2,
     borderBottomColor: '#CFB53B',
-    marginBottom: 25,
   },
-  introText: {
+  input: {
+    borderWidth: 2,
+    borderColor: '#ddd',
+    borderRadius: 4,
+    padding: 15,
+    marginBottom: 20,
+    fontSize: 16,
+    width: '100%',
+  },
+  textArea: {
+    height: 120,
+    textAlignVertical: 'top',
+  },
+  ctaButton: {
+    backgroundColor: '#004225',
+    paddingVertical: 16,
+    paddingHorizontal: 30,
+    borderRadius: 4,
+    alignItems: 'center',
+    height: 55,
+    width: '100%',
+  },
+  ctaButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  mapText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+  },
+  faqItemStatic: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    marginBottom: 20,
+    padding: 20,
+    width: '100%',
+    maxWidth: 800,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  faqQuestionStatic: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#004225',
+    marginBottom: 10,
+  },
+  faqAnswerStatic: {
     fontSize: 16,
     color: '#333',
+    lineHeight: 24,
+  },
+  container: {
+    flex: 1
+  },
+  topBar: {
+    backgroundColor: '#004225',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    minHeight: 40,
+    zIndex: 1000,
+  },
+  topBarText: {
+    color: '#fff',
+    fontSize: 15,
+    left: 120,
+    top: 8,
+  },
+  header: {
+    padding: 16,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  // UPDATED LOGO CONTAINER TO MATCH COURSESELECTIONSCREEN
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  logo: {
+    width: 80, // Increased from 60 to match CourseSelectionScreen
+    height: 80, // Increased from 60 to match CourseSelectionScreen
+    marginRight: 15,
+  },
+  orgName: {
+    fontSize: 28, // Increased from 24 to match CourseSelectionScreen
+    fontWeight: '700',
+    color: '#004225',
+  },
+  // UPDATED NAV MENU TO MATCH COURSESELECTIONSCREEN
+  navMenu: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+    flex: 2,
+  },
+  navLinkContainer: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    marginHorizontal: 4,
+    marginVertical: 2,
+  },
+  navLinkHoverActive: {
+    backgroundColor: '#e6f0f7',
+  },
+  navLink: {
+    fontSize: 20, // Reduced from 18 to match CourseSelectionScreen
+    color: '#000000ff',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  navLinkTextHoverActive: {
+    color: '#1F6357',
+  },
+  breadcrumb: {
+    backgroundColor: '#f8f9fa',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  breadcrumbContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  breadcrumbLink: {
+    fontSize: 14,
+    color: '#004225',
+    fontWeight: '500',
+  },
+  breadcrumbSeparator: {
+    fontSize: 14,
+    color: '#6c757d',
+    marginHorizontal: 5,
+  },
+  breadcrumbCurrent: {
+    fontSize: 14,
+    color: '#000000ff',
+  },
+  section: {
+    padding: 20,
+    // alignItems: 'center', // Let children control their alignment
+  },
+  sectionTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#000000ff',
+    textAlign: 'center',
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 4,
+    borderBottomColor: '#CFB53B',
+    alignSelf: 'center',
+    width: '50%',
+  },
+  introText: {
+    fontSize: 18,
+    color: '#002a18',
     textAlign: 'center',
     marginBottom: 30,
     lineHeight: 26,
+    maxWidth: 800,
   },
+  // Contact Container
   contactContainer: {
+    flexDirection: 'column',
+    marginBottom: 30,
     paddingHorizontal: 20,
   },
+  // Contact Information
   contactInfo: {
-    backgroundColor: '#f8f9fa',
-    padding: 20,
+    // flex: 1, // Not needed in a column layout
+    // minWidth: 300,
+    // maxWidth: 400,
+    backgroundColor: '#D9D9D9',
+    padding: 30,
     borderRadius: 8,
-    marginBottom: 30,
+    marginBottom: 30, // Add margin to separate from the form
+  },
+  contactInfoTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#004225',
+    marginBottom: 25,
+    paddingBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: '#CFB53B',
   },
   contactItem: {
     flexDirection: 'row',
@@ -245,90 +423,260 @@ const styles = StyleSheet.create({
   contactIcon: {
     marginRight: 15,
     marginTop: 2,
-    width: 24,
-    textAlign: 'center',
   },
   contactDetails: {
     flex: 1,
   },
   contactType: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#004225',
+    marginBottom: 8,
+  },
+  contactValue: {
     fontSize: 16,
+    color: '#002a18',
+    marginBottom: 3,
+    lineHeight: 20,
+  },
+  // Contact Form
+  contactForm: {
+    // flex: 1, // Not needed in a column layout
+    // minWidth: 300,
+    // maxWidth: 400,
+    backgroundColor: '#fff',
+    padding: 30,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  contactFormTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#004225',
+    marginBottom: 25,
+    paddingBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: '#CFB53B',
+  },
+  formInput: {
+    borderWidth: 2,
+    borderColor: '#ddd',
+    borderRadius: 4,
+    padding: 15,
+    marginBottom: 20,
+    fontSize: 16,
+  },
+  messageInput: {
+    height: 120,
+  },
+  submitButton: {
+    backgroundColor: '#004225',
+    paddingVertical: 16,
+    paddingHorizontal: 30,
+    borderRadius: 4,
+    alignItems: 'center',
+    height: 55,
+  },
+  submitButtonHover: {
+    backgroundColor: '#002a18',
+  },
+  submitButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  // Map Section
+  mapSection: {
+    marginTop: 30,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  mapDescription: {
+    fontSize: 18,
+    color: '#002a18',
+    textAlign: 'center',
+    marginBottom: 20,
+    lineHeight: 24,
+    maxWidth: 800,
+  },
+  mapPlaceholder: {
+    height: 300,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%', // Takes full width of its parent
+    maxWidth: 800,
+  },
+  mapPlaceholderText: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#004225',
     marginBottom: 5,
   },
-  contactValue: {
-    fontSize: 15,
-    color: '#333',
-    lineHeight: 22,
-  },
-  contactForm: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#eee',
-    marginBottom: 30,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 15,
+  mapPlaceholderSubtext: {
     fontSize: 16,
-    marginBottom: 15,
-    backgroundColor: '#fff',
+    color: '#002a18',
   },
-  textArea: {
-    height: 120,
-    textAlignVertical: 'top',
-  },
-  ctaButton: {
-    backgroundColor: '#CFB53B',
-    paddingVertical: 15,
+  // FAQ Section
+  faqSection: {
+    backgroundColor: '#f8f9fa',
+    padding: 40,
+    // margin: 20, // Replaced with section padding
     borderRadius: 8,
     alignItems: 'center',
-    marginTop: 10,
   },
-  ctaButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
+  faqContainer: {
+    maxWidth: 800,
+    alignSelf: 'center',
+    width: '100%',
   },
-  mapPlaceholder: {
-    height: 200,
-    backgroundColor: '#e9ecef',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  mapText: {
-    marginTop: 10,
-    color: '#6c757d',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    paddingHorizontal: 10,
-  },
-  faqItemStatic: {
+  faqItem: {
     backgroundColor: '#fff',
     borderRadius: 8,
     marginBottom: 20,
-    borderWidth: 1,
-    borderColor: '#eee',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
     overflow: 'hidden',
-    padding: 20,
   },
-  faqQuestionStatic: {
+  faqQuestion: {
+    padding: 20,
     fontSize: 18,
     fontWeight: 'bold',
     color: '#004225',
-    marginBottom: 10,
+    backgroundColor: 'rgba(0, 66, 37, 0.1)',
   },
-  faqAnswerStatic: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#555',
+  faqAnswer: {
+    padding: 20,
+    fontSize: 16,
+    color: '#002a18',
+    lineHeight: 24,
+  },
+  // Footer Styles
+  footer: {
+    backgroundColor: '#002a18',
+    paddingTop: 50,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+  },
+  footerGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 40,
+  },
+  footerColumn: {
+    marginBottom: 20,
+    flex: 1,
+    minWidth: 250,
+    left: 100,
+    right: 100,
+  },
+  footerHeading: {
+    color: '#fff',
+    marginBottom: 20,
+    paddingBottom: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    borderBottomWidth: 3,
+    borderBottomColor: '#CFB53B',
+    width: 200,
+  },
+  footerText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    lineHeight: 20,
+    marginBottom: 5,
+  },
+  socialLinks: {
+    flexDirection: 'row',
+    marginTop: 10,
+    gap: 12,
+  },
+  socialLink: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  socialLinkHover: {
+    backgroundColor: '#CFB53B',
+  },
+  footerLink: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    marginBottom: 8,
+  },
+  footerLinkHover: {
+    color: '#CFB53B',
+  },
+  contactInfoItem: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    lineHeight: 20,
+    marginBottom: 15,
+  },
+  copyright: {
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
+    paddingTop: 20,
+    marginTop: 10,
+  },
+  copyrightText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.7)',
+    textAlign: 'center',
+  },
+  // Dropdown styles
+  dropdownContainer: {
+    position: 'relative',
+    zIndex: 1001,
+  },
+  dropdownTrigger: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    right: 200,
+    top: 8,
+  },
+  dropdownCaret: {
+    marginLeft: 5,
+  },
+  dropdownMenu: {
+    position: 'absolute',
+    top: 35,
+    right: 0,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+    minWidth: 120,
+    borderWidth: 1,
+    borderColor: '#eee',
+    zIndex: 1002,
+  },
+  dropdownItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  dropdownItemText: {
+    fontSize: 14,
+    color: '#004225',
+    fontWeight: '500',
   },
 });
 

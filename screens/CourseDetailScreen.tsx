@@ -50,10 +50,10 @@ const CourseDetailScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <View style={styles.fullScreenContainer}>
-      <ScrollView contentContainerStyle={styles.scrollContentContainer}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         {/* Header */}
         <View style={styles.header}>
-          <HeaderComponent showBackButton={true} />
+          <HeaderComponent />
         </View>
 
         {/* Hero Section */}
@@ -126,7 +126,10 @@ const CourseDetailScreen: React.FC<Props> = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  // Error and Centered Styles
+  fullScreenContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   centered: {
     flex: 1,
     justifyContent: 'center',
@@ -135,8 +138,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 18,
-    color: 'red',
-    textAlign: 'center',
+    color: '#d9534f',
     marginBottom: 20,
   },
   backLink: {
@@ -144,28 +146,9 @@ const styles = StyleSheet.create({
     color: '#004225',
     textDecorationLine: 'underline',
   },
-  // Main Layout
-  fullScreenContainer: {
-    flex: 1,
-    height: '100%', // Explicitly set height to ensure flex context
-    backgroundColor: '#fff',
-  },
-  scrollContentContainer: {
-    paddingBottom: 70, // Space for bottom nav
-  },
-  // Header
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    zIndex: 1000,
+    zIndex: 10,
   },
-  // Hero Section
   hero: {
     width: '100%',
     height: 400,
@@ -178,10 +161,10 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
   },
   heroContent: {
     alignItems: 'center',
-    paddingHorizontal: 20,
   },
   heroTitle: {
     fontSize: 32,
@@ -202,7 +185,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   heroButton: {
-    backgroundColor: '#004225',
+    backgroundColor: '#dc3545',
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 4,
@@ -212,32 +195,34 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
-  // Content Sections
   section: {
     padding: 20,
   },
   contentSection: {
     marginBottom: 40,
+    width: '100%',
+    alignItems: 'center',
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#000',
-    textAlign: 'center',
     marginBottom: 30,
     paddingBottom: 10,
     borderBottomWidth: 4,
     borderBottomColor: '#CFB53B',
-    alignSelf: 'center',
+    textAlign: 'center',
   },
   description: {
     fontSize: 16,
     lineHeight: 24,
     color: '#333',
     textAlign: 'center',
+    marginBottom: 20,
   },
-  // Curriculum
-  curriculumContainer: {},
+  curriculumContainer: {
+    width: '100%',
+  },
   curriculumItem: {
     backgroundColor: '#fff',
     padding: 20,
@@ -255,30 +240,34 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#004225',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   curriculumDescription: {
     fontSize: 16,
     color: '#333',
+    marginBottom: 15,
     fontStyle: 'italic',
-    marginBottom: 8,
   },
   curriculumPoint: {
     fontSize: 15,
     color: '#333',
-    lineHeight: 22,
-    marginLeft: 10,
-    marginBottom: 4,
+    marginBottom: 8,
+    lineHeight: 24,
   },
-  // Benefits
-  benefitsGrid: {},
-  benefitCard: {
+  benefitsGrid: {
     flexDirection: 'row',
-    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 20,
+  },
+  benefitCard: {
     backgroundColor: '#f8f9fa',
-    padding: 15,
+    padding: 20,
     borderRadius: 8,
-    marginBottom: 10,
+    alignItems: 'center',
+    flex: 1,
+    minWidth: '45%',
+    flexDirection: 'row',
   },
   benefitIcon: {
     marginRight: 15,
@@ -288,21 +277,33 @@ const styles = StyleSheet.create({
     color: '#333',
     flex: 1,
   },
-  // CTA
   ctaSection: {
+    backgroundColor: '#f8f9fa',
+    padding: 30,
+    borderRadius: 8,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 30,
+    width: '100%',
   },
   enrollButton: {
-    backgroundColor: '#004225',
+    backgroundColor: '#dc3545',
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 4,
+    alignItems: 'center',
   },
   enrollButtonText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 18,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#f8f9fa',
+  },
+  contentContainer: {
+    flexGrow: 1,
+    paddingBottom: 100,
   },
 });
 
