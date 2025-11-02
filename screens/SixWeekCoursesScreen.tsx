@@ -40,8 +40,9 @@ const SixWeekCoursesScreen: React.FC = () => {
 
   return (
     <View style={styles.fullScreenContainer}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <HeaderComponent />
+      <View style={{ flex: 1 }}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+          <HeaderComponent />
 
         {/* Mobile Navigation */}
         <View style={styles.mobileNavContainer}>
@@ -132,9 +133,8 @@ const SixWeekCoursesScreen: React.FC = () => {
             </View>
           </View>
         </View>
-
-      </ScrollView>
-
+        </ScrollView>
+      </View>
       <BottomNav />
     </View>
   );

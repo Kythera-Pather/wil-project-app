@@ -26,207 +26,211 @@ const HomeScreen: React.FC = () => {
 
   return (
     <View style={styles.fullScreenContainer}>
-      <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.contentContainer}>
-        <HeaderComponent />
-
-      {/* Mobile Navigation Column */}
-      <View style={styles.mobileNavContainer}>
-        {navLinks.map((link) => (
-          <TouchableOpacity
-            key={link.screen}
-            style={styles.mobileNavLink}
-            onPress={() => handleNavigation(link.screen)}
-          >
-            <Text style={styles.mobileNavLinkText}>{link.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Hero Section */}
-      <View>
-        <ImageBackground
-          source={require('../assets/images/homepage.jpg')}
-          style={styles.hero}
-          resizeMode="cover"
+      <HeaderComponent />
+      <View style={{ flex: 1 }}>
+        <ScrollView 
+          style={styles.scrollContainer}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={true}
         >
-          <View style={styles.heroOverlay}>
-            <View style={styles.heroTextContainer}>
-              <Text style={styles.heroTitleSmall}>Empowering the Nation Through Education</Text>
-              <Text style={styles.heroTitleLarge}>Empower Yourself Through Quality Education</Text>
-            </View>
-            <View style={styles.heroCtaContainer}>
-              <Text style={styles.heroSubtitle}>Transform your future with our specialized skills training programs designed for domestic workers and gardeners.</Text>
-              <Pressable
-                style={({ pressed }: PressableStateCallbackType) => [styles.heroBtn, pressed && styles.btnHover]}
-                onPress={() => handleNavigation('CourseSelection')}>
-                <Text style={styles.btnText}>EXPLORE OUR COURSES</Text>
-              </Pressable>
-            </View>
-          </View>
-        </ImageBackground>
-      </View>
-
-      {/* Stats Section */}
-      <View style={styles.stats}>
-        <View style={styles.statsGrid}>
-          <View style={styles.statCard}>
-            <Text style={styles.statNumber}>500+</Text>
-            <Text style={styles.statLabel}>Students Trained</Text>
-          </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statNumber}>12</Text>
-            <Text style={styles.statLabel}>Courses Offered</Text>
-          </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statNumber}>95%</Text>
-            <Text style={styles.statLabel}>Success Rate</Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Features Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Why Choose Us</Text>
-        <View style={styles.featuresGrid}>
-          <View style={styles.featureCard}>
-            <Icon name="graduation-cap" size={40} color="#CFB53B" style={styles.featureIcon} />
-            <Text style={styles.featureTitle}>Quality Education</Text>
-            <Text style={styles.featureCardText}>Our courses are designed by industry experts to provide practical, real-world skills.</Text>
-          </View>
-          <View style={styles.featureCard}>
-            <Icon name="users" size={40} color="#CFB53B" style={styles.featureIcon} />
-            <Text style={styles.featureTitle}>Expert Instructors</Text>
-            <Text style={styles.featureCardText}>Learn from professionals with years of experience in their respective fields.</Text>
-          </View>
-          <View style={styles.featureCard}>
-            <Icon name="heart" size={40} color="#CFB53B" style={styles.featureIcon} />
-            <Text style={styles.featureTitle}>Community Impact</Text>
-            <Text style={styles.featureCardText}>Join a movement that's transforming lives and uplifting communities across South Africa.</Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Courses Preview */}
-      <View style={[styles.section, styles.coursesPreview]}>
-        <Text style={styles.sectionTitle}>Our Popular Courses</Text>
-        <View style={styles.coursesGrid}>
-          <View style={styles.courseCard}>
-            <View style={styles.courseCardImageContainer}>
-              <Image 
-                source={require('../assets/images/first-aid-course.jpg')} 
-                style={styles.courseImage}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.courseContent}>
-              <Text style={styles.courseTitle}>First Aid Training</Text>
-              <Text style={styles.courseText}>Learn essential life-saving skills with our comprehensive first aid course.</Text>
-              <Pressable
-                style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
-                onPress={() => handleNavigation('FirstAidCourse')}
+          {/* Mobile Navigation Column */}
+          <View style={styles.mobileNavContainer}>
+            {navLinks.map((link) => (
+              <TouchableOpacity
+                key={link.screen}
+                style={styles.mobileNavLink}
+                onPress={() => handleNavigation(link.screen)}
               >
-                <Text style={styles.btnOutlineText}>LEARN MORE</Text>
-              </Pressable>
+                <Text style={styles.mobileNavLinkText}>{link.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* Hero Section */}
+          <View>
+            <ImageBackground
+              source={require('../assets/images/homepage.jpg')}
+              style={styles.hero}
+              resizeMode="cover"
+            >
+              <View style={styles.heroOverlay}>
+                <View style={styles.heroTextContainer}>
+                  <Text style={styles.heroTitleSmall}>Empowering the Nation Through Education</Text>
+                  <Text style={styles.heroTitleLarge}>Empower Yourself Through Quality Education</Text>
+                </View>
+                <View style={styles.heroCtaContainer}>
+                  <Pressable
+                    style={({ pressed }: PressableStateCallbackType) => [styles.heroBtn, pressed && styles.btnHover]}
+                    onPress={() => handleNavigation('CourseSelection')}>
+                    <Text style={styles.btnText}>EXPLORE OUR COURSES</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
+
+          {/* Stats Section */}
+          <View style={styles.stats}>
+            <View style={styles.statsGrid}>
+              <View style={styles.statCard}>
+                <Text style={styles.statNumber}>500+</Text>
+                <Text style={styles.statLabel}>Students Trained</Text>
+              </View>
+              <View style={styles.statCard}>
+                <Text style={styles.statNumber}>12</Text>
+                <Text style={styles.statLabel}>Courses Offered</Text>
+              </View>
+              <View style={styles.statCard}>
+                <Text style={styles.statNumber}>95%</Text>
+                <Text style={styles.statLabel}>Success Rate</Text>
+              </View>
             </View>
           </View>
-          <View style={styles.courseCard}>
-            <View style={styles.courseCardImageContainer}>
-              <Image 
-                source={require('../assets/images/cooking-course.jpg')} 
-                style={styles.courseImage}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.courseContent}>
-              <Text style={styles.courseTitle}>Cooking & Nutrition</Text>
-              <Text style={styles.courseText}>Master the art of preparing nutritious, balanced meals for modern households.</Text>
-              <Pressable
-                style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
-                onPress={() => handleNavigation('CookingCourse')}
-              >
-                <Text style={styles.btnOutlineText}>LEARN MORE</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.courseCard}>
-            <View style={styles.courseCardImageContainer}>
-              <Image 
-                source={require('../assets/images/child-minding-course.jpg')} 
-                style={styles.courseImage}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.courseContent}>
-              <Text style={styles.courseTitle}>Child Minding</Text>
-              <Text style={styles.courseText}>Gain expertise in early childhood development and create safe environments for children.</Text>
-              <Pressable
-                style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
-                onPress={() => handleNavigation('ChildMindingCourse')}
-              >
-                <Text style={styles.btnOutlineText}>LEARN MORE</Text>
-              </Pressable>
+
+          {/* Features Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Why Choose Us</Text>
+            <View style={styles.featuresGrid}>
+              <View style={styles.featureCard}>
+                <Icon name="graduation-cap" size={40} color="#CFB53B" style={styles.featureIcon} />
+                <Text style={styles.featureTitle}>Quality Education</Text>
+                <Text style={styles.featureCardText}>Our courses are designed by industry experts to provide practical, real-world skills.</Text>
+              </View>
+              <View style={styles.featureCard}>
+                <Icon name="users" size={40} color="#CFB53B" style={styles.featureIcon} />
+                <Text style={styles.featureTitle}>Expert Instructors</Text>
+                <Text style={styles.featureCardText}>Learn from professionals with years of experience in their respective fields.</Text>
+              </View>
+              <View style={styles.featureCard}>
+                <Icon name="heart" size={40} color="#CFB53B" style={styles.featureIcon} />
+                <Text style={styles.featureTitle}>Community Impact</Text>
+                <Text style={styles.featureCardText}>Join a movement that's transforming lives and uplifting communities across South Africa.</Text>
+              </View>
             </View>
           </View>
-        </View>
-        <Pressable          style={({ pressed }: PressableStateCallbackType) => [styles.btn, { alignSelf: 'center', marginTop: 20, width:300, height:40 }, pressed && styles.btnHover]}
-          onPress={() => handleNavigation('CourseSelection')}
-        >
-          <Text style={styles.viewAllBtnText}>VIEW ALL COURSES</Text>
-        </Pressable>
+
+          {/* Courses Preview */}
+          <View style={[styles.section, styles.coursesPreview]}>
+            <Text style={styles.sectionTitle}>Our Popular Courses</Text>
+            <View style={styles.coursesGrid}>
+              <View style={styles.courseCard}>
+                <View style={styles.courseCardImageContainer}>
+                  <Image 
+                    source={require('../assets/images/first-aid-course.jpg')} 
+                    style={styles.courseImage}
+                    resizeMode="cover"
+                  />
+                </View>
+                <View style={styles.courseContent}>
+                  <Text style={styles.courseTitle}>First Aid Training</Text>
+                  <Text style={styles.courseText}>Learn essential life-saving skills with our comprehensive first aid course.</Text>
+                  <Pressable
+                    style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
+                    onPress={() => handleNavigation('FirstAidCourse')}
+                  >
+                    <Text style={styles.btnOutlineText}>LEARN MORE</Text>
+                  </Pressable>
+                </View>
+              </View>
+              <View style={styles.courseCard}>
+                <View style={styles.courseCardImageContainer}>
+                  <Image 
+                    source={require('../assets/images/cooking-course.jpg')} 
+                    style={styles.courseImage}
+                    resizeMode="cover"
+                  />
+                </View>
+                <View style={styles.courseContent}>
+                  <Text style={styles.courseTitle}>Cooking & Nutrition</Text>
+                  <Text style={styles.courseText}>Master the art of preparing nutritious, balanced meals for modern households.</Text>
+                  <Pressable
+                    style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
+                    onPress={() => handleNavigation('CookingCourse')}
+                  >
+                    <Text style={styles.btnOutlineText}>LEARN MORE</Text>
+                  </Pressable>
+                </View>
+              </View>
+              <View style={styles.courseCard}>
+                <View style={styles.courseCardImageContainer}>
+                  <Image 
+                    source={require('../assets/images/child-minding-course.jpg')} 
+                    style={styles.courseImage}
+                    resizeMode="cover"
+                  />
+                </View>
+                <View style={styles.courseContent}>
+                  <Text style={styles.courseTitle}>Child Minding</Text>
+                  <Text style={styles.courseText}>Gain expertise in early childhood development and create safe environments for children.</Text>
+                  <Pressable
+                    style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
+                    onPress={() => handleNavigation('ChildMindingCourse')}
+                  >
+                    <Text style={styles.btnOutlineText}>LEARN MORE</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+            <Pressable style={({ pressed }: PressableStateCallbackType) => [styles.btn, { alignSelf: 'center', marginTop: 20, width:300, height:40 }, pressed && styles.btnHover]}
+              onPress={() => handleNavigation('CourseSelection')}
+            >
+              <Text style={styles.viewAllBtnText}>VIEW ALL COURSES</Text>
+            </Pressable>
+          </View>
+
+          {/* About Section */}
+          <View style={[styles.section, styles.aboutSection]}>
+            <Text style={styles.sectionTitle}>Our Story</Text>
+            <Text style={styles.bodyText}>
+              Founded in 2018 by Precious Radebe, <Text style={{fontWeight: 'bold'}}>Empowering the Nation</Text> was born from personal experience—watching family members struggle due to lack of formal education and skills training.
+              Our initiative provides the chances they never had: opportunities to rise above circumstances and create better futures.
+            </Text>
+            <Text style={styles.bodyText}>
+              We specialize in upskilling domestic workers and gardeners who have traditionally been overlooked in the professional landscape. 
+              These individuals are often the backbone of households, yet their contributions frequently go undervalued. 
+              Our programs change this by offering specialized training that enhances skills, earning potential, dignity, and self-confidence.
+            </Text>
+            <Pressable
+              style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, { alignSelf: 'center', marginTop: 20}, pressed && styles.goldBtnHover]}
+              onPress={() => handleNavigation('AboutScreen')}
+            >
+              <Text style={styles.goldBtnText}>LEARN MORE ABOUT US</Text>
+            </Pressable>
+          </View>
+
+          {/* Testimonials */}
+          <View style={[styles.section, styles.testimonials]}>
+            <Text style={[styles.sectionTitle, styles.testimonialsTitle]}>Success Stories</Text>
+            <View style={styles.testimonialGrid}>
+              <View style={styles.testimonialCard}>
+                <Text style={styles.testimonialText}>"The First Aid course changed my life. I now have a valuable skill that makes me more employable and confident."</Text>
+                <Text style={styles.testimonialAuthor}>- Sarah M., Course Graduate</Text>
+              </View>
+              <View style={styles.testimonialCard}>
+                <Text style={styles.testimonialText}>"After completing the Landscaping course, I started my own small business. I'm now earning three times what I did before."</Text>
+                <Text style={styles.testimonialAuthor}>- John D., Course Graduate</Text>
+              </View>
+              <View style={styles.testimonialCard}>
+                <Text style={styles.testimonialText}>"Empowering the Nation provided my domestic worker with training that significantly improved her skills. It's been beneficial for everyone."</Text>
+                <Text style={styles.testimonialAuthor}>- Susan P., Employer</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* Call to Action */}
+          <View style={styles.cta}>
+            <Text style={styles.ctaTitle}>Ready to Transform Your Future?</Text>
+            <Text style={styles.ctaText}>Join hundreds of individuals who have elevated their skills and changed their lives through our programs.</Text>
+            <Pressable
+              style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, pressed && styles.goldBtnHover]}
+              onPress={() => handleNavigation('Signup')}
+            >
+              <Text style={styles.goldBtnText}>ENROLL TODAY</Text>
+            </Pressable>
+          </View>
+        </ScrollView>
       </View>
 
-      {/* About Section */}
-      <View style={[styles.section, styles.aboutSection]}>
-        <Text style={styles.sectionTitle}>Our Story</Text>
-        <Text style={styles.bodyText}>
-          Founded in 2018 by Precious Radebe, <Text style={{fontWeight: 'bold'}}>Empowering the Nation</Text> was born from personal experience—watching family members struggle due to lack of formal education and skills training.
-          Our initiative provides the chances they never had: opportunities to rise above circumstances and create better futures.
-        </Text>
-        <Text style={styles.bodyText}>
-          We specialize in upskilling domestic workers and gardeners who have traditionally been overlooked in the professional landscape. 
-          These individuals are often the backbone of households, yet their contributions frequently go undervalued. 
-          Our programs change this by offering specialized training that enhances skills, earning potential, dignity, and self-confidence.
-        </Text>
-        <Pressable
-          style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, { alignSelf: 'center', marginTop: 20}, pressed && styles.goldBtnHover]}
-          onPress={() => handleNavigation('AboutScreen')}
-        >
-          <Text style={styles.goldBtnText}>LEARN MORE ABOUT US</Text>
-        </Pressable>
-      </View>
-
-      {/* Testimonials */}
-      <View style={[styles.section, styles.testimonials]}>
-        <Text style={[styles.sectionTitle, styles.testimonialsTitle]}>Success Stories</Text>
-        <View style={styles.testimonialGrid}>
-          <View style={styles.testimonialCard}>
-            <Text style={styles.testimonialText}>"The First Aid course changed my life. I now have a valuable skill that makes me more employable and confident."</Text>
-            <Text style={styles.testimonialAuthor}>- Sarah M., Course Graduate</Text>
-          </View>
-          <View style={styles.testimonialCard}>
-            <Text style={styles.testimonialText}>"After completing the Landscaping course, I started my own small business. I'm now earning three times what I did before."</Text>
-            <Text style={styles.testimonialAuthor}>- John D., Course Graduate</Text>
-          </View>
-          <View style={styles.testimonialCard}>
-            <Text style={styles.testimonialText}>"Empowering the Nation provided my domestic worker with training that significantly improved her skills. It's been beneficial for everyone."</Text>
-            <Text style={styles.testimonialAuthor}>- Susan P., Employer</Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Call to Action */}
-      <View style={styles.cta}>
-        <Text style={styles.ctaTitle}>Ready to Transform Your Future?</Text>
-        <Text style={styles.ctaText}>Join hundreds of individuals who have elevated their skills and changed their lives through our programs.</Text>
-        <Pressable
-          style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, pressed && styles.goldBtnHover]}
-          onPress={() => handleNavigation('Signup')}
-        >
-          <Text style={styles.goldBtnText}>ENROLL TODAY</Text>
-        </Pressable>
-      </View>
-
-      </ScrollView>
       <BottomNav />
     </View>
   );
@@ -236,13 +240,13 @@ const styles = StyleSheet.create({
   fullScreenContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    height: '100%', // for web
-  },
-  contentContainer: {
-    paddingBottom: 120, // ensures space to scroll
   },
   scrollContainer: {
-    position: 'relative', // remove flex:1
+    flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    paddingBottom: 120, // Space for BottomNav
   },
   orgName: {
     fontSize: 16,
@@ -252,7 +256,7 @@ const styles = StyleSheet.create({
   },
   mobileNavContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 10, // This creates the space under the header
+    paddingVertical: 10,
     backgroundColor: '#f8f9fa',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
@@ -270,7 +274,7 @@ const styles = StyleSheet.create({
   hero: {
     width: '100%',
     justifyContent: 'center',
-    height: 500,
+    minHeight: 500,
   },
   heroOverlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -326,7 +330,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   heroBtn: {
-    backgroundColor: '#CFB53B', // Gold/Brown color
+    backgroundColor: '#CFB53B',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 5,
@@ -335,7 +339,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btnHover: {
-    backgroundColor: '#bcae35', // Darker gold for hover
+    backgroundColor: '#bcae35',
   },
   goldBtn: {
     backgroundColor: '#CFB53B',
@@ -352,7 +356,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   statCard: {
-    backgroundColor: '#343a40', // Dark gray
+    backgroundColor: '#343a40',
     borderRadius: 10,
     padding: 15,
     alignItems: 'center',
@@ -364,7 +368,7 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#CFB53B', // Gold color for better contrast on dark card
+    color: '#CFB53B',
   },
   statLabel: {
     fontSize: 16,
@@ -383,7 +387,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 4,
     borderBottomColor: '#CFB53B',
-    alignSelf: 'center', // Let the width be determined by content
+    alignSelf: 'center',
   },
   featuresGrid: {
     flexDirection: 'row',
@@ -394,21 +398,17 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   featureCard: {
-    backgroundColor: '#343a40', // Dark gray
+    backgroundColor: '#343a40',
     padding: 20,
     borderRadius: 10,
     alignItems: 'center',
     textAlign: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
     elevation: 3,
     flex: 1,
     minWidth: 300,
     maxWidth: 350,
     marginHorizontal: 10,
-    marginBottom: 20, // For wrapping on mobile
+    marginBottom: 20,
   },
   featureIcon: {
     marginBottom: 15,
@@ -422,10 +422,10 @@ const styles = StyleSheet.create({
   },
   featureCardText: {
     fontSize: 14,
-    color: '#adb5bd', // Lighter text for dark background
+    color: '#adb5bd',
     textAlign: 'center',
   },
-  featureText: { // This style was being used inconsistently, now unified with featureCardText
+  featureText: {
     fontSize: 14,
     color: '#adb5bd',
     textAlign: 'center',
@@ -442,15 +442,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   courseCard: {
-    backgroundColor: '#343a40', // Dark gray
+    backgroundColor: '#343a40',
     borderRadius: 10,
     elevation: 3,
     flex: 1,
     minWidth: 300,
-    maxWidth: '100%', // Allow card to shrink on smaller screens
+    maxWidth: '100%',
     marginHorizontal: 10,
     overflow: 'hidden',
-    marginBottom: 20, // For wrapping on mobile
+    marginBottom: 20,
   },
   courseCardImageContainer: {
     height: 120,
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
   },
   courseText: {
     fontSize: 16,
-    color: '#adb5bd', // Lighter text for dark background
+    color: '#adb5bd',
     textAlign: 'center',
     marginBottom: 15,
   },
@@ -511,11 +511,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: '#002a18',
-    marginBottom: 15, // Centered text for this section
+    marginBottom: 15,
     textAlign: 'center',
   },
   testimonials: {
-    backgroundColor: '#002a18', // Changed to match the original design intent
+    backgroundColor: '#002a18',
     padding: 20,
   },
   testimonialsTitle: {
@@ -531,7 +531,7 @@ const styles = StyleSheet.create({
     alignContent: 'center', 
   },
   testimonialCard: {
-    backgroundColor: '#000', // Black cards
+    backgroundColor: '#000',
     padding: 20,
     borderRadius: 8,
     marginBottom: 10,

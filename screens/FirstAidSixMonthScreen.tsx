@@ -37,7 +37,7 @@ const FirstAidCourseScreen: React.FC = () => {
 
   return (
     <View style={styles.fullScreenContainer}>
-      <ScrollView style={{flex: 1}} contentContainerStyle={styles.contentContainer}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         {/* Header */}
         <View style={styles.header}>
           <HeaderComponent />
@@ -180,6 +180,10 @@ const FirstAidCourseScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   fullScreenContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  container: {
     flex: 1,
     backgroundColor: '#fff',
   },

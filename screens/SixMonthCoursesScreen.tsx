@@ -41,85 +41,87 @@ const SixMonthCoursesScreen: React.FC = () => {
 
   return (
     <View style={styles.fullScreenContainer}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <HeaderComponent />
+      <View style={{ flex: 1 }}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+          <HeaderComponent />
 
-        {/* Mobile Navigation */}
-        <View style={styles.mobileNavContainer}>
-          {navLinks.map((link) => (
-            <TouchableOpacity
-              key={link.screen}
-              style={styles.mobileNavLink}
-              onPress={() => handleNavigation(link.screen)}
-            >
-              <Text style={styles.mobileNavLinkText}>{link.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <View style={styles.titleSection}>
-          <Text style={styles.pageContext}>Six-Month Page</Text>
-          <Text style={styles.mainHeading}>Six-Month Courses</Text>
-          <Text style={styles.introText}>
-            Our comprehensive six-month courses are designed to provide in-depth knowledge and practical skills, preparing you for a successful career.
-          </Text>
-        </View>
+          {/* Mobile Navigation */}
+          <View style={styles.mobileNavContainer}>
+            {navLinks.map((link) => (
+              <TouchableOpacity
+                key={link.screen}
+                style={styles.mobileNavLink}
+                onPress={() => handleNavigation(link.screen)}
+              >
+                <Text style={styles.mobileNavLinkText}>{link.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={styles.titleSection}>
+            <Text style={styles.pageContext}>Six-Month Page</Text>
+            <Text style={styles.mainHeading}>Six-Month Courses</Text>
+            <Text style={styles.introText}>
+              Our comprehensive six-month courses are designed to provide in-depth knowledge and practical skills, preparing you for a successful career.
+            </Text>
+          </View>
 
-        {/* 2. Course Listings */}
-        <View style={styles.courseGrid}>
-          {sixMonthCourses.map((course: Course) => (
-            <View key={course.id} style={styles.courseCard}>
-              <Image source={courseImages[course.id]} style={styles.courseImage} />
-              <View style={styles.cardContent}>
-                <Text style={styles.courseTitle}>{course.title}</Text>
-                <Text style={styles.courseDescription}>{course.description}</Text>
-                <View style={styles.bulletPointsContainer}>
-                  <View style={styles.bulletPoint}>
-                    <Icon name="circle" size={6} color="#CFB53B" style={styles.bulletIcon} />
-                    <Text style={styles.bulletText}>6 Months</Text>
+          {/* 2. Course Listings */}
+          <View style={styles.courseGrid}>
+            {sixMonthCourses.map((course: Course) => (
+              <View key={course.id} style={styles.courseCard}>
+                <Image source={courseImages[course.id]} style={styles.courseImage} />
+                <View style={styles.cardContent}>
+                  <Text style={styles.courseTitle}>{course.title}</Text>
+                  <Text style={styles.courseDescription}>{course.description}</Text>
+                  <View style={styles.bulletPointsContainer}>
+                    <View style={styles.bulletPoint}>
+                      <Icon name="circle" size={6} color="#CFB53B" style={styles.bulletIcon} />
+                      <Text style={styles.bulletText}>6 Months</Text>
+                    </View>
+                    <View style={styles.bulletPoint}>
+                      <Icon name="circle" size={6} color="#CFB53B" style={styles.bulletIcon} />
+                      <Text style={styles.bulletText}>Certificate Provided</Text>
+                    </View>
+                    <View style={styles.bulletPoint}>
+                      <Icon name="circle" size={6} color="#CFB53B" style={styles.bulletIcon} />
+                      <Text style={styles.bulletText}>Practical Training</Text>
+                    </View>
                   </View>
-                  <View style={styles.bulletPoint}>
-                    <Icon name="circle" size={6} color="#CFB53B" style={styles.bulletIcon} />
-                    <Text style={styles.bulletText}>Certificate Provided</Text>
-                  </View>
-                  <View style={styles.bulletPoint}>
-                    <Icon name="circle" size={6} color="#CFB53B" style={styles.bulletIcon} />
-                    <Text style={styles.bulletText}>Practical Training</Text>
-                  </View>
+                  <Text style={styles.priceText}>R1500</Text>
+                  <Pressable
+                    style={({ pressed }: PressableStateCallbackType) => [styles.learnMoreButton, pressed && styles.buttonHover]}
+                    onPress={() => handleNavigation('CourseDetail', { courseId: course.id, courseType: 'six-month' })}
+                  >
+                    <Text style={styles.learnMoreButtonText}>Learn More</Text>
+                  </Pressable>
                 </View>
-                <Text style={styles.priceText}>R1500</Text>
-                <Pressable
-                  style={({ pressed }: PressableStateCallbackType) => [styles.learnMoreButton, pressed && styles.buttonHover]}
-                  onPress={() => handleNavigation('CourseDetail', { courseId: course.id, courseType: 'six-month' })}
-                >
-                  <Text style={styles.learnMoreButtonText}>Learn More</Text>
-                </Pressable>
               </View>
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
 
-        {/* 3. Value Proposition */}
-        <View style={styles.section}>
-          <Text style={styles.sectionHeading}>Why Choose our Six-Month Courses?</Text>
-          <Text style={styles.bodyText}>
-            Our six-month programs offer a perfect blend of theoretical knowledge and intensive practical application. We believe in learning by doing, which is why our curriculum is packed with hands-on projects and real-world scenarios to ensure you are job-ready upon completion.
-          </Text>
-          <Text style={styles.bodyText}>
-            Led by experienced instructors who are experts in their fields, you will receive mentorship and guidance throughout your learning journey. Upon successful completion, you will be awarded a valuable certificate that is recognized by employers and validates your newfound expertise.
-          </Text>
-        </View>
+          {/* 3. Value Proposition */}
+          <View style={styles.section}>
+            <Text style={styles.sectionHeading}>Why Choose our Six-Month Courses?</Text>
+            <Text style={styles.bodyText}>
+              Our six-month programs offer a perfect blend of theoretical knowledge and intensive practical application. We believe in learning by doing, which is why our curriculum is packed with hands-on projects and real-world scenarios to ensure you are job-ready upon completion.
+            </Text>
+            <Text style={styles.bodyText}>
+              Led by experienced instructors who are experts in their fields, you will receive mentorship and guidance throughout your learning journey. Upon successful completion, you will be awarded a valuable certificate that is recognized by employers and validates your newfound expertise.
+            </Text>
+          </View>
 
-        {/* 4. Enrollment CTA */}
-        <View style={styles.section}>
-          <Pressable
-            style={({ pressed }: PressableStateCallbackType) => [styles.ctaButton, pressed && styles.buttonHover]}
-            onPress={() => handleNavigation('CourseSelection')}
-          >
-            <Text style={styles.ctaButtonText}>ENROLL NOW</Text>
-          </Pressable>
-        </View>
+          {/* 4. Enrollment CTA */}
+          <View style={styles.section}>
+            <Pressable
+              style={({ pressed }: PressableStateCallbackType) => [styles.ctaButton, pressed && styles.buttonHover]}
+              onPress={() => handleNavigation('CourseSelection')}
+            >
+              <Text style={styles.ctaButtonText}>ENROLL NOW</Text>
+            </Pressable>
+          </View>
 
-      </ScrollView>
+        </ScrollView>
+      </View>
 
       <BottomNav />
     </View>
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   container: {
-    flex: 1, backgroundColor: '#fff'
+    backgroundColor: '#fff'
   },
   contentContainer: {
     paddingBottom: 100, // Space for bottom nav
@@ -287,4 +289,3 @@ const styles = StyleSheet.create({
 });
 
 export default SixMonthCoursesScreen;
-

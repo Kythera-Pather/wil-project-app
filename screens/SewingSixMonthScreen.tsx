@@ -37,11 +37,12 @@ const SewingCourseScreen: React.FC = () => {
 
   return (
     <View style={styles.fullScreenContainer}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      {/* Header */}
-      <View style={styles.header}>
-        <HeaderComponent />
-      </View>
+      <View style={{ flex: 1 }}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        {/* Header */}
+        <View style={styles.header}>
+          <HeaderComponent />
+        </View>
 
         {/* Mobile Navigation */}
         <View style={styles.mobileNavContainer}>
@@ -179,7 +180,8 @@ const SewingCourseScreen: React.FC = () => {
         </View>
       </View>
 
-      </ScrollView>
+        </ScrollView>
+      </View>
       <BottomNav />
     </View>
   );
@@ -205,7 +207,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     backgroundColor: '#fff',
-    zIndex: 1000,  },  headerIconContainer: {
+    zIndex: 1000,
+  },  headerIconContainer: {
     width: 40,
     alignItems: 'center',
     justifyContent: 'center',
