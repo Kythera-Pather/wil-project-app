@@ -21,7 +21,8 @@ const HomeScreen: React.FC = () => {
     { label: 'Six Month Courses', screen: 'SixMonthCourses' as keyof RootStackParamList },
     { label: 'Course Selection', screen: 'CourseSelection' as keyof RootStackParamList },
     { label: 'Contact Us', screen: 'Contact' as keyof RootStackParamList },
-    { label: 'About Us', screen: 'AboutScreen' as keyof RootStackParamList },
+    { label: 'About Us', screen: 'AboutScreen' as keyof RootStackParamList }, 
+  
   ];
 
   return (
@@ -89,7 +90,7 @@ const HomeScreen: React.FC = () => {
           {/* Features Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Why Choose Us</Text>
-            <View style={styles.featuresGrid}>
+            <View style={styles.features}>
               <View style={styles.featureCard}>
                 <Icon name="graduation-cap" size={40} color="#CFB53B" style={styles.featureIcon} />
                 <Text style={styles.featureTitle}>Quality Education</Text>
