@@ -40,9 +40,8 @@ const SixWeekCoursesScreen: React.FC = () => {
 
   return (
     <View style={styles.fullScreenContainer}>
-      <View style={{ flex: 1 }}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <HeaderComponent />
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <HeaderComponent />
 
         {/* Mobile Navigation */}
         <View style={styles.mobileNavContainer}>
@@ -91,18 +90,7 @@ const SixWeekCoursesScreen: React.FC = () => {
                 <Text style={styles.priceText}>R750</Text>
                 <Pressable
                   style={({ pressed }: PressableStateCallbackType) => [styles.learnMoreButton, pressed && styles.buttonHover]}
-                  onPress={() => {
-                    if (course.id === 'child-minding') {
-                      handleNavigation('ChildMindingCourse');
-                    } else if (course.id === 'garden-maintenance') {
-                      handleNavigation('GardenMaintenanceCourse');
-                    } else if (course.id === 'cooking') {
-                      handleNavigation('CookingCourse');
-                    } else {
-                      handleNavigation('CourseDetail', { courseId: course.id, courseType: 'six-week' });
-                    }
-                    
-                  }}
+                  onPress={() => handleNavigation('CourseDetail', { courseId: course.id, courseType: 'six-week' })}
                 >
                   <Text style={styles.learnMoreButtonText}>Learn More</Text>
                 </Pressable>
@@ -133,8 +121,7 @@ const SixWeekCoursesScreen: React.FC = () => {
             </View>
           </View>
         </View>
-        </ScrollView>
-      </View>
+      </ScrollView>
       <BottomNav />
     </View>
   );
@@ -143,10 +130,7 @@ const SixWeekCoursesScreen: React.FC = () => {
 const styles = StyleSheet.create({
   fullScreenContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  container: {
-    flex: 1, backgroundColor: '#fff'
+    backgroundColor: '#ffffffff',
   },
   contentContainer: {
     paddingBottom: 100, // Space for bottom nav
@@ -154,7 +138,7 @@ const styles = StyleSheet.create({
   mobileNavContainer: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#004225',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
@@ -169,141 +153,322 @@ const styles = StyleSheet.create({
     color: '#004225',
   },
   titleSection: {
+    padding: 20,
     alignItems: 'center',
-    paddingHorizontal: 20,
-    marginBottom: 20,
   },
   pageContext: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#6c757d',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   mainHeading: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#000',
     textAlign: 'center',
+    marginBottom: 20,
+    paddingBottom: 10,
     borderBottomWidth: 4,
     borderBottomColor: '#CFB53B',
-    paddingBottom: 5,
-    marginBottom: 15,
-  },
-  introText: {
-    fontSize: 16,
-    color: '#333',
-    textAlign: 'center',
   },
   courseGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    paddingHorizontal: 10,
-  },
-  courseCard: {
-    backgroundColor: '#343a40',
-    borderRadius: 15,
-    margin: 10,
-    width: '42%',
-    overflow: 'hidden',
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  courseImage: {
-    width: '100%',
-    height: 100,
+    gap: 20,
+    padding: 20,
   },
   cardContent: {
-    padding: 15,
-  },
-  courseTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 8,
-  },
-  courseDescription: {
-    fontSize: 13,
-    color: '#adb5bd',
-    marginBottom: 12,
-    minHeight: 60,
+    padding: 20,
+    flex: 1,
+    justifyContent: 'space-between',
   },
   bulletPointsContainer: {
+    marginTop: 15,
     marginBottom: 15,
   },
   bulletPoint: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 5,
+    marginBottom: 8,
   },
   bulletIcon: {
-    marginRight: 8,
+    marginRight: 10,
   },
   bulletText: {
-    fontSize: 12,
-    color: '#adb5bd',
+    fontSize: 14,
+    color: '#002a18',
   },
   priceText: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#CFB53B',
     marginBottom: 15,
   },
   learnMoreButton: {
-    backgroundColor: '#CFB53B',
-    paddingVertical: 8,
-    borderRadius: 5,
+    backgroundColor: '#004225',
+    paddingVertical: 12,
+    borderRadius: 4,
     alignItems: 'center',
   },
   learnMoreButtonText: {
-    color: '#000',
+    color: '#fff',
     fontWeight: 'bold',
     fontSize: 14,
   },
   buttonHover: {
-    backgroundColor: '#bcae35',
-  },
-  section: {
-    padding: 20,
-    marginTop: 20,
+    backgroundColor: '#002a18',
   },
   sectionHeading: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
+    color: '#000',
     textAlign: 'center',
+    marginBottom: 30,
+    paddingBottom: 10,
     borderBottomWidth: 4,
     borderBottomColor: '#CFB53B',
-    paddingBottom: 5,
-    marginBottom: 20,
     alignSelf: 'center',
+    width: 'auto',
+  },
+  bodyText: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#002a18',
+    textAlign: 'center',
+    marginBottom: 15,
+    maxWidth: 800,
+    alignSelf: 'center',
+  },
+  ctaButton: {
+    backgroundColor: '#004225',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 4,
+    alignSelf: 'center',
+  },
+  ctaButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   featuresGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 15,
+    gap: 20,
   },
   featureCard: {
-    backgroundColor: '#343a40',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
+    padding: 20,
+    borderRadius: 8,
     flex: 1,
-    minWidth: '40%',
+    minWidth: 250,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
   featureTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 5,
-    textAlign: 'center',
+    color: '#004225',
+    marginBottom: 10,
   },
   featureText: {
-    fontSize: 13,
-    color: '#adb5bd',
+    fontSize: 14,
+    color: '#333',
     textAlign: 'center',
+    lineHeight: 20,
+  },
+  courseTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#004225',
+    marginBottom: 10,
+  },
+  courseDescription: {
+    fontSize: 14,
+    color: '#002a18',
+    marginBottom: 15,
+    lineHeight: 20,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffffff',
+  },
+  topBar: {
+    backgroundColor: '#004225',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    minHeight: 40,
+    zIndex: 1000,
+  },
+  section: {
+    padding: 20,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000000ff',
+    textAlign: 'center',
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 4,
+    borderBottomColor: '#CFB53B',
+    alignSelf: 'center',
+    width: '25%',
+  },
+  introText: {
+    fontSize: 16,
+    color: '#002a18',
+    textAlign: 'center',
+    marginBottom: 30,
+    lineHeight: 24,
+    maxWidth: 800,
+    alignSelf: 'center',
+    width: '90%',
+  },
+  courseCard: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    width: 300,
+    marginBottom: 30,
+    overflow: 'hidden',
+  },
+  courseImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  footer: {
+    backgroundColor: '#002a18',
+    paddingTop: 50,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+  },
+  footerGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 40,
+  },
+  footerColumn: {
+    marginBottom: 20,
+    flex: 1,
+    minWidth: 250,
+    left: 100,
+    right: 100,
+  },
+  footerHeading: {
+    color: '#fff',
+    marginBottom: 20,
+    paddingBottom: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    borderBottomWidth: 3,
+    borderBottomColor: '#CFB53B',
+    width: 200,
+  },
+  footerText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    lineHeight: 20,
+    marginBottom: 5,
+  },
+  socialLinks: {
+    flexDirection: 'row',
+    marginTop: 10,
+    gap: 12,
+  },
+  socialLink: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  socialLinkHover: {
+    backgroundColor: '#CFB53B',
+  },
+  footerLink: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    marginBottom: 8,
+  },
+  footerLinkHover: {
+    color: '#CFB53B',
+  },
+  contactInfoItem: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    lineHeight: 20,
+    marginBottom: 15,
+  },
+  copyright: {
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
+    paddingTop: 20,
+    marginTop: 10,
+  },
+  copyrightText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.7)',
+    textAlign: 'center',
+  },
+  // Updated dropdown styles
+  dropdownContainer: {
+    position: 'relative',
+    zIndex: 1001,
+  },
+  dropdownTrigger: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    right: 200,
+    top: 8,
+  },
+  dropdownCaret: {
+    marginLeft: 5,
+  },
+  dropdownMenu: {
+    position: 'absolute',
+    top: 35,
+    right: 0,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+    minWidth: 120,
+    borderWidth: 1,
+    borderColor: '#eee',
+    zIndex: 1002,
+  },
+  dropdownItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  dropdownItemText: {
+    fontSize: 14,
+    color: '#004225',
+    fontWeight: '500',
   },
 });
 

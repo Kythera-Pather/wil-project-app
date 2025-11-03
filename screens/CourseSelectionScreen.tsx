@@ -82,21 +82,21 @@ const CourseSelectionScreen: React.FC = () => {
   ];
 
   const renderCourseItem = (course: Course, price: number) => (
-    <TouchableOpacity key={course.id} style={styles.courseItem} onPress={() => toggleCourseSelection(course.id)}>
-      <Icon
-        name={selectedCourses.includes(course.id) ? 'check-square-o' : 'square-o'}
-        size={24}
-        color={selectedCourses.includes(course.id) ? '#CFB53B' : '#333'}
-        style={styles.checkboxIcon}
-      />
-      <Text style={styles.courseName}>{course.title}</Text>
-      <Text style={styles.coursePrice}>R{price}</Text>
-    </TouchableOpacity>
+    <Pressable
+      key={course.id}
+      style={({ pressed }) => [
+        styles.courseButton,
+        selectedCourses.includes(course.id) && styles.courseButtonSelected,
+        pressed && styles.courseButtonPressed,
+      ]}
+      onPress={() => toggleCourseSelection(course.id)}>
+      <Text style={[styles.courseButtonText, selectedCourses.includes(course.id) && styles.courseButtonTextSelected]}>{course.title} - R{price}</Text>
+    </Pressable>
   );
 
   return (
     <View style={styles.fullScreenContainer}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 100 }}>
         <HeaderComponent />
 
         {/* Mobile Navigation */}
@@ -191,122 +191,132 @@ const CourseSelectionScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  fullScreenContainer: { flex: 1, backgroundColor: '#fff' },
-  container: { flex: 1, backgroundColor: '#fff' },
-  contentContainer: { paddingBottom: 100 },
-  mobileNavContainer: { paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#f8f9fa', borderBottomWidth: 1, borderBottomColor: '#eee' },
-  mobileNavLink: { paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#e9ecef' },
-  mobileNavLinkText: { fontSize: 16, fontWeight: '500', color: '#004225' },
-  titleSection: { alignItems: 'center', padding: 20, marginBottom: 10 },
-  mainHeading: { fontSize: 26, fontWeight: 'bold', color: '#000', textAlign: 'center', marginBottom: 15 },
-  introText: { fontSize: 16, color: '#333', textAlign: 'center' },
-  discountContainer: {
+  fullScreenContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  contentContainer: {
+    paddingBottom: 100, // For BottomNav
+  },
+  mobileNavContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     backgroundColor: '#f8f9fa',
-    borderRadius: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  mobileNavLink: {
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e9ecef',
+  },
+  mobileNavLinkText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#004225',
+  },
+  titleSection: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  mainHeading: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#000',
+    textAlign: 'center',
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 4,
+    borderBottomColor: '#CFB53B',
+  },
+  discountContainer: {
+    backgroundColor: 'rgba(207, 181, 59, 0.1)',
     padding: 20,
     marginHorizontal: 20,
     marginBottom: 30,
+    borderRadius: 8,
     alignItems: 'center',
   },
   discountHeading: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 5,
+    color: '#004225',
+    marginBottom: 10,
   },
   discountIntro: {
-    fontSize: 14,
-    color: '#6c757d',
-    marginBottom: 15,
-  },
-  discountGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-  },
-  discountCard: {
-    backgroundColor: '#343a40',
-    padding: 10,
-    borderRadius: 8,
-    flex: 1,
-    marginHorizontal: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    fontSize: 16,
+    color: '#002a18',
+    marginBottom: 20,
+    textAlign: 'center',
   },
   discountCardText: {
-    color: '#fff',
+    fontSize: 16,
     fontWeight: 'bold',
+    color: '#fff',
     textAlign: 'center',
-    fontSize: 14,
+    lineHeight: 24,
   },
   finePrint: {
     fontSize: 12,
     color: '#6c757d',
     marginTop: 15,
-  },
-  formSection: {
-    paddingHorizontal: 20,
-    marginBottom: 20,
-  },
-  sectionHeading: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#000',
-    borderBottomWidth: 2,
-    borderBottomColor: '#CFB53B',
-    paddingBottom: 5,
-    marginBottom: 20,
+    fontStyle: 'italic',
   },
   inputLabel: {
-    fontSize: 14,
-    color: '#333',
-    marginBottom: 5,
-    fontWeight: '500',
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#004225',
+    marginBottom: 8,
   },
   input: {
+    width: '100%',
+    padding: 12,
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 15,
+    borderRadius: 4,
     fontSize: 16,
     marginBottom: 15,
-    backgroundColor: '#fff',
+  },
+  sectionHeading: {
+    fontSize: 22,
+    color: '#004225',
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: '#CFB53B',
   },
   courseList: {
-    borderTopWidth: 1,
-    borderColor: '#eee',
+    marginBottom: 20,
   },
   courseItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderColor: '#eee',
+    marginBottom: 15,
+    padding: 15,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 8,
   },
   checkboxIcon: {
     marginRight: 15,
   },
-  courseName: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
-  },
-  coursePrice: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#CFB53B',
-  },
   summarySection: {
-    paddingHorizontal: 20,
-    marginTop: 20,
-    backgroundColor: '#f8f9fa',
-    paddingVertical: 20,
+    backgroundColor: '#fff',
     borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    padding: 20,
     marginHorizontal: 20,
+    marginBottom: 20,
   },
   summaryRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
   },
   summaryLabel: {
     fontSize: 16,
@@ -314,38 +324,443 @@ const styles = StyleSheet.create({
   },
   summaryValue: {
     fontSize: 16,
-    color: '#333',
+    fontWeight: '600',
   },
   totalRow: {
     borderTopWidth: 2,
-    borderColor: '#CFB53B',
-    paddingTop: 10,
+    borderTopColor: '#004225',
     marginTop: 10,
+    paddingTop: 10,
+    borderBottomWidth: 0,
   },
   totalLabel: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#004225',
   },
   totalValue: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#004225',
   },
   ctaSection: {
+    alignItems: 'center',
     paddingHorizontal: 20,
-    marginTop: 30,
   },
   ctaButton: {
-    backgroundColor: '#CFB53B',
-    paddingVertical: 15,
-    borderRadius: 8,
+    backgroundColor: '#dc3545',
+    paddingVertical: 16,
+    paddingHorizontal: 40,
+    borderRadius: 4,
+    width: '100%',
     alignItems: 'center',
   },
   ctaButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  courseButton: {
+    backgroundColor: '#f0f0f0',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginBottom: 10,
+    borderWidth: 2,
+    borderColor: '#ddd',
+  },
+  courseButtonSelected: {
+    backgroundColor: '#dc3545',
+    borderColor: '#CFB53B',
+  },
+  courseButtonPressed: {
+    backgroundColor: '#e0e0e0',
+  },
+  courseButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
+  },
+  courseButtonTextSelected: {
+    color: '#fff',
+  },
+  courseName: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#002a18',
+  },
+  coursePrice: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#CFB53B',
+  },
+  container: {
+    flex: 1,
+  },
+  topBar: {
+    backgroundColor: '#004225',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    minHeight: 40,
+    zIndex: 1000,
+  },
+  topBarText: {
+    color: '#fff',
+    fontSize: 15,
+    left: 120,
+    top: 8,
+  },
+  topBarLinks: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  topBarLinkText: {
+    color: '#fff',
+    fontSize: 15,
+    marginLeft: 15,
+    right: 200,
+    top: 8,
+  },
+  header: {
+    padding: 16,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  logo: {
+    width: 80, // Increased from 60
+    height: 80, // Increased from 60
+    marginRight: 15,
+  },
+  orgName: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#004225',
+  },
+  navMenu: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+    flex: 2,
+  },
+  navLinkContainer: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    marginHorizontal: 4,
+    marginVertical: 2,
+  },
+  navLinkHoverActive: {
+    backgroundColor: '#e6f0f7',
+  },
+  navLink: {
+    fontSize: 20, // Reduced from 18
+    color: '#000000ff',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  navLinkTextHoverActive: {
+    color: '#1F6357',
+  },
+  breadcrumb: {
+    backgroundColor: '#f8f9fa',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  breadcrumbContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  breadcrumbLink: {
+    fontSize: 14,
+    color: '#004225',
+    fontWeight: '500',
+  },
+  breadcrumbSeparator: {
+    fontSize: 14,
+    color: '#6c757d',
+    marginHorizontal: 5,
+  },
+  breadcrumbCurrent: {
+    fontSize: 14,
+    color: '#000000ff',
+  },
+  section: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  sectionTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#000000ff',
+    textAlign: 'center',
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 4,
+    borderBottomColor: '#CFB53B',
+    alignSelf: 'center',
+    width: '50%',
+  },
+  introText: {
+    fontSize: 18,
+    color: '#002a18',
+    textAlign: 'center',
+    marginBottom: 30,
+    lineHeight: 26,
+    maxWidth: 800,
+  },
+  formSection: {
+    marginBottom: 30,
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f5f5f5',
+  },
+  formSectionTitle: {
+    fontSize: 22,
+    color: '#004225',
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: '#CFB53B',
+  },
+  formInput: {
+    width: '100%',
+    padding: 15,
+    borderWidth: 2,
+    borderColor: '#ddd',
+    borderRadius: 4,
+    fontSize: 18,
+    marginBottom: 15,
+  },
+  // Button Styles
+  buttonContainer: {
+    alignItems: 'center',
+  },
+  calculateButton: {
+    backgroundColor: '#004225',
+    paddingVertical: 16,
+    paddingHorizontal: 40,
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    width: 300,
+    height: 60,
+  },
+  calculateButtonHover: {
+    backgroundColor: '#002a18',
+  },
+  buttonIcon: {
+    marginRight: 12,
+  },
+  calculateButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  // Discount Section - MOVED INSIDE FORM CONTAINER
+  discountSection: {
+    backgroundColor: 'rgba(207, 181, 59, 0.1)',
+    padding: 30,
+    marginBottom: 30,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  discountSectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000000ff',
+    textAlign: 'center',
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 4,
+    borderBottomColor: '#CFB53B',
+    alignSelf: 'center',
+    width: '100%',
+  },
+  discountText: {
+    fontSize: 16,
+    color: '#002a18',
+    textAlign: 'center',
+    marginBottom: 20,
+    lineHeight: 24,
+    maxWidth: 800,
+  },
+  discountGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 15,
+    marginBottom: 20,
+    width: '100%',
+  },
+  discountCard: {
+    backgroundColor: '#004225',
+    padding: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    minWidth: 150,
+    flex: 1,
+    maxWidth: 200,
+  },
+  discountPercent: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#CFB53B',
+    marginBottom: 8,
+  },
+  discountDesc: {
+    fontSize: 14,
+    color: '#fff',
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  discountNote: {
+    fontSize: 14,
+    color: '#002a18',
+    textAlign: 'center',
+    fontStyle: 'italic',
+    maxWidth: 800,
+  },
+  // Footer Styles
+  footer: {
+    backgroundColor: '#002a18',
+    paddingTop: 50,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+  },
+  footerGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 40,
+  },
+  footerColumn: {
+    marginBottom: 20,
+    flex: 1,
+    minWidth: 250,
+    left: 100,
+    right: 100,
+  },
+  footerHeading: {
+    color: '#fff',
+    marginBottom: 20,
+    paddingBottom: 10,
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000'
+    borderBottomWidth: 3,
+    borderBottomColor: '#CFB53B',
+    width: 200,
+  },
+  footerText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    lineHeight: 20,
+    marginBottom: 5,
+  },
+  socialLinks: {
+    flexDirection: 'row',
+    marginTop: 10,
+    gap: 12,
+  },
+  socialLink: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  socialLinkHover: {
+    backgroundColor: '#CFB53B',
+  },
+  footerLink: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    marginBottom: 8,
+  },
+  footerLinkHover: {
+    color: '#CFB53B',
+  },
+  contactInfoItem: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    lineHeight: 20,
+    marginBottom: 15,
+  },
+  copyright: {
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
+    paddingTop: 20,
+    marginTop: 10,
+  },
+  copyrightText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.7)',
+    textAlign: 'center',
+  },
+  // Dropdown styles - UPDATED TO MATCH HOMESCREEN
+  dropdownContainer: {
+    position: 'relative',
+    zIndex: 1001,
+  },
+  dropdownTrigger: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    right: 200,
+    top: 8,
+  },
+  dropdownCaret: {
+    marginLeft: 5,
+  },
+  dropdownMenu: {
+    position: 'absolute',
+    top: 35,
+    right: 0,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+    minWidth: 120,
+    borderWidth: 1,
+    borderColor: '#eee',
+    zIndex: 1002,
+  },
+  dropdownItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  dropdownItemText: {
+    fontSize: 14,
+    color: '#004225',
+    fontWeight: '500',
   },
 });
 

@@ -27,14 +27,12 @@ const HomeScreen: React.FC = () => {
   return (
     <View style={styles.fullScreenContainer}>
       <HeaderComponent />
-      <View style={{ flex: 1 }}>
-        <ScrollView 
-          style={styles.scrollContainer}
-          contentContainerStyle={styles.contentContainer}
-          showsVerticalScrollIndicator={true}
-        >
-          {/* Mobile Navigation Column */}
-          <View style={styles.mobileNavContainer}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={styles.contentContainer}
+      >
+        {/* Mobile Navigation Column */}
+        <View style={styles.mobileNavContainer}>
             {navLinks.map((link) => (
               <TouchableOpacity
                 key={link.screen}
@@ -44,9 +42,9 @@ const HomeScreen: React.FC = () => {
                 <Text style={styles.mobileNavLinkText}>{link.label}</Text>
               </TouchableOpacity>
             ))}
-          </View>
+        </View>
 
-          {/* Hero Section */}
+        {/* Hero Section */}
           <View>
             <ImageBackground
               source={require('../assets/images/homepage.jpg')}
@@ -68,6 +66,7 @@ const HomeScreen: React.FC = () => {
               </View>
             </ImageBackground>
           </View>
+        {/* --- Hero Section Temporarily Removed for Debugging --- */}
 
           {/* Stats Section */}
           <View style={styles.stats}>
@@ -94,17 +93,17 @@ const HomeScreen: React.FC = () => {
               <View style={styles.featureCard}>
                 <Icon name="graduation-cap" size={40} color="#CFB53B" style={styles.featureIcon} />
                 <Text style={styles.featureTitle}>Quality Education</Text>
-                <Text style={styles.featureCardText}>Our courses are designed by industry experts to provide practical, real-world skills.</Text>
+                <Text style={styles.featureText}>Our courses are designed by industry experts to provide practical, real-world skills.</Text>
               </View>
               <View style={styles.featureCard}>
                 <Icon name="users" size={40} color="#CFB53B" style={styles.featureIcon} />
                 <Text style={styles.featureTitle}>Expert Instructors</Text>
-                <Text style={styles.featureCardText}>Learn from professionals with years of experience in their respective fields.</Text>
+                <Text style={styles.featureText}>Learn from professionals with years of experience in their respective fields.</Text>
               </View>
               <View style={styles.featureCard}>
                 <Icon name="heart" size={40} color="#CFB53B" style={styles.featureIcon} />
                 <Text style={styles.featureTitle}>Community Impact</Text>
-                <Text style={styles.featureCardText}>Join a movement that's transforming lives and uplifting communities across South Africa.</Text>
+                <Text style={styles.featureText}>Join a movement that's transforming lives and uplifting communities across South Africa.</Text>
               </View>
             </View>
           </View>
@@ -125,8 +124,8 @@ const HomeScreen: React.FC = () => {
                   <Text style={styles.courseTitle}>First Aid Training</Text>
                   <Text style={styles.courseText}>Learn essential life-saving skills with our comprehensive first aid course.</Text>
                   <Pressable
-                    style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
-                    onPress={() => handleNavigation('FirstAidCourse')}
+                    style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnHover]}
+                    onPress={() => handleNavigation('CourseDetail', { courseId: 'first-aid', courseType: 'six-month' })}
                   >
                     <Text style={styles.btnOutlineText}>LEARN MORE</Text>
                   </Pressable>
@@ -144,8 +143,8 @@ const HomeScreen: React.FC = () => {
                   <Text style={styles.courseTitle}>Cooking & Nutrition</Text>
                   <Text style={styles.courseText}>Master the art of preparing nutritious, balanced meals for modern households.</Text>
                   <Pressable
-                    style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
-                    onPress={() => handleNavigation('CookingCourse')}
+                    style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnHover]}
+                    onPress={() => handleNavigation('CourseDetail', { courseId: 'cooking', courseType: 'six-week' })}
                   >
                     <Text style={styles.btnOutlineText}>LEARN MORE</Text>
                   </Pressable>
@@ -163,8 +162,8 @@ const HomeScreen: React.FC = () => {
                   <Text style={styles.courseTitle}>Child Minding</Text>
                   <Text style={styles.courseText}>Gain expertise in early childhood development and create safe environments for children.</Text>
                   <Pressable
-                    style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnOutlineHover]}
-                    onPress={() => handleNavigation('ChildMindingCourse')}
+                    style={({ pressed }: PressableStateCallbackType) => [styles.btnOutline, pressed && styles.btnHover]}
+                    onPress={() => handleNavigation('CourseDetail', { courseId: 'child-minding', courseType: 'six-week' })}
                   >
                     <Text style={styles.btnOutlineText}>LEARN MORE</Text>
                   </Pressable>
@@ -174,7 +173,7 @@ const HomeScreen: React.FC = () => {
             <Pressable style={({ pressed }: PressableStateCallbackType) => [styles.btn, { alignSelf: 'center', marginTop: 20, width:300, height:40 }, pressed && styles.btnHover]}
               onPress={() => handleNavigation('CourseSelection')}
             >
-              <Text style={styles.viewAllBtnText}>VIEW ALL COURSES</Text>
+              <Text style={styles.btnText}>VIEW ALL COURSES</Text>
             </Pressable>
           </View>
 
@@ -182,7 +181,7 @@ const HomeScreen: React.FC = () => {
           <View style={[styles.section, styles.aboutSection]}>
             <Text style={styles.sectionTitle}>Our Story</Text>
             <Text style={styles.bodyText}>
-              Founded in 2018 by Precious Radebe, <Text style={{fontWeight: 'bold'}}>Empowering the Nation</Text> was born from personal experience—watching family members struggle due to lack of formal education and skills training.
+              Founded in 2022 by Precious Radebe, <Text style={{fontWeight: 'bold'}}>Empowering the Nation</Text> was born from personal experience—watching family members struggle due to lack of formal education and skills training.
               Our initiative provides the chances they never had: opportunities to rise above circumstances and create better futures.
             </Text>
             <Text style={styles.bodyText}>
@@ -191,7 +190,7 @@ const HomeScreen: React.FC = () => {
               Our programs change this by offering specialized training that enhances skills, earning potential, dignity, and self-confidence.
             </Text>
             <Pressable
-              style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, { alignSelf: 'center', marginTop: 20}, pressed && styles.goldBtnHover]}
+              style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, { alignSelf: 'center', marginTop: 20}, pressed && styles.btnHover]}
               onPress={() => handleNavigation('AboutScreen')}
             >
               <Text style={styles.goldBtnText}>LEARN MORE ABOUT US</Text>
@@ -222,15 +221,13 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.ctaTitle}>Ready to Transform Your Future?</Text>
             <Text style={styles.ctaText}>Join hundreds of individuals who have elevated their skills and changed their lives through our programs.</Text>
             <Pressable
-              style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, pressed && styles.goldBtnHover]}
+              style={({ pressed }: PressableStateCallbackType) => [styles.btn, styles.goldBtn, pressed && styles.btnHover]}
               onPress={() => handleNavigation('Signup')}
             >
               <Text style={styles.goldBtnText}>ENROLL TODAY</Text>
             </Pressable>
-          </View>
-        </ScrollView>
-      </View>
-
+        </View>
+      </ScrollView>
       <BottomNav />
     </View>
   );
@@ -239,25 +236,34 @@ const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   fullScreenContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffffff',
   },
+  // Added missing scrollContainer style referenced by the ScrollView
   scrollContainer: {
     flex: 1,
   },
+  hero: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // height: 580, // REMOVED: This fixed height was blocking the ScrollView.
+  },
+  heroOverlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingHorizontal: 20,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center', // ADDED: To center content vertically
+    paddingVertical: 60, // ADDED: Use padding for flexible height
+  },
   contentContainer: {
     flexGrow: 1,
-    paddingBottom: 120, // Space for BottomNav
-  },
-  orgName: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#004225',
-    marginTop: 4,
+    paddingBottom: 100, // Ensures content can scroll above the BottomNav
   },
   mobileNavContainer: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#004225',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
@@ -271,123 +277,213 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#004225',
   },
-  hero: {
-    width: '100%',
-    justifyContent: 'center',
-    minHeight: 500,
-  },
-  heroOverlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    padding: 20,
-    width: '100%',
-    height: '100%',
+  topBar: {
+    backgroundColor: '#004225',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    minHeight: 40,
+    zIndex: 1000,
   },
-  heroTextContainer: {
+  topBarText: {
+    color: '#fff',
+    fontSize: 15,
+    left: 120,
+    top: 8,
+  },
+  topBarLinks: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  topBarLinkText: {
+    color: '#fff',
+    fontSize: 15,
+    marginLeft: 15,
+    right: 200,
+    top: 8,
+  },
+  header: {
+    padding: 16,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
   },
-  heroTitleSmall: {
-    fontSize: 24,
+  logo: {
+    width: 80, // Increased from 60
+    height: 80, // Increased from 60
+    marginRight: 15,
+  },
+  orgName: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#004225',
+  },
+  navMenu: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+    flex: 2,
+  },
+  navLinkContainer: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    marginHorizontal: 4,
+    marginVertical: 2,
+  },
+  navLinkHoverActive: {
+    backgroundColor: '#e6f0f7',
+  },
+  navLink: {
+    fontSize:20, // Reduced from 18
+    color: '#000000ff',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  navLinkTextHoverActive: {
+    color: '#1F6357',
+  },
+  breadcrumb: {
+    backgroundColor: '#f8f9fa',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  breadcrumbContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  breadcrumbLink: {
+    fontSize: 14,
+    color: '#004225',
+    fontWeight: '500',
+  },
+  breadcrumbSeparator: {
+    fontSize: 14,
+    color: '#6c757d',
+    marginHorizontal: 5,
+  },
+  breadcrumbCurrent: {
+    fontSize: 14,
+    color: '#000000ff',
+  },
+  heroTitle: {
+    fontSize: 40,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 10,
+    textAlign: 'center',
+    marginBottom: 40,
   },
-  heroTitleLarge: {
-    fontSize: 36,
+  content: {
+    padding: 20,
+  },
+  title: {
+    fontSize: 32,
     fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 20,
+    color: '#004225',
+    textAlign: 'center',
+    marginBottom: 30,
+    paddingBottom: 10,
+    borderBottomWidth: 4,
+    borderBottomColor: '#CFB53B',
+    alignSelf: 'center',
+    width: '50%',
   },
-  heroCtaContainer: {
-    alignItems: 'flex-end',
+  features: {
+    marginTop: 40,
+    marginBottom: 40,
   },
-  heroSubtitle: {
-    fontSize: 18,
-    color: '#fff',
-    textAlign: 'right',
-    marginBottom: 20,
-    maxWidth: 400,
+  featureCardHover: {
+    transform: [{ translateY: -5}],
+    shadowOpacity: 0.5,
+    boxShadow: '0 5px 10px rgba(0, 0, 0, 0.1)',
+    borderTopColor: '#CFB53B',
+    backgroundColor: '#c4c4c4',
   },
   btn: {
-    backgroundColor: '#004225',
+    backgroundColor: '#dc3545',
     paddingVertical: 12,
     paddingHorizontal: 30,
-    borderRadius: 5,    
-    height:50,
+    borderRadius: 3,    
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
+    width: 250,
   },
   btnText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 16,
-  },
-  goldBtnText: {
-    color: '#002a18',
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 20,
+    textAlign: 'center', // Added text alignment
+    width: '100%', // Ensure text takes full width
   },
   heroBtn: {
-    backgroundColor: '#CFB53B',
+    backgroundColor: '#dc3545',
     paddingVertical: 12,
     paddingHorizontal: 30,
-    borderRadius: 5,
-    height:50,
+    borderRadius: 3,
+    // top: 170, // REMOVED: No longer needed with flexbox layout
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
+    width: 250,
   },
   btnHover: {
-    backgroundColor: '#bcae35',
-  },
-  goldBtn: {
-    backgroundColor: '#CFB53B',
-  },
-  goldBtnHover: {
-    backgroundColor: '#bcae35',
+    backgroundColor: '#002a18',
   },
   stats: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#CFB53B',
     padding: 20,
+    height: 100,
   },
   statsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    flexWrap: 'wrap',
+    height: '100%',
+    alignContent: 'center',
+    alignItems: 'center',
   },
   statCard: {
-    backgroundColor: '#343a40',
-    borderRadius: 10,
-    padding: 15,
     alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    marginHorizontal: 5,
-    minWidth: 100,
+    margin: 5,
+    minWidth: 120,
   },
   statNumber: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#CFB53B',
+    color: '#004225',
   },
   statLabel: {
     fontSize: 16,
-    color: '#fff',
+    color: '#000000ff',
   },
   section: {
     padding: 20,
-    marginTop: 40,
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#000000ff',
     textAlign: 'center',
     marginBottom: 40,
     paddingBottom: 10,
     borderBottomWidth: 4,
     borderBottomColor: '#CFB53B',
     alignSelf: 'center',
+    maxWidth: '80%', // More flexible width
   },
   featuresGrid: {
     flexDirection: 'row',
@@ -395,41 +491,42 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 30,
     width: '100%',
-    alignContent: 'center',
+    alignItems: 'stretch',
   },
   featureCard: {
-    backgroundColor: '#343a40',
-    padding: 20,
-    borderRadius: 10,
+    backgroundColor: '#D9D9D9',
+    flex: 1,
+    padding: 10,
+    borderRadius: 4,
     alignItems: 'center',
     textAlign: 'center',
+    borderTopWidth: 4,
+    borderTopColor: '#121212',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
     elevation: 3,
-    flex: 1,
+    height: 250, // Adjusted height to be more flexible
     minWidth: 300,
     maxWidth: 350,
-    marginHorizontal: 10,
-    marginBottom: 20,
+    marginHorizontal: 0, // Rely on gap from parent
   },
   featureIcon: {
-    marginBottom: 15,
+    marginBottom: 20, // Adjusted spacing
   },
   featureTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  featureCardText: {
-    fontSize: 14,
-    color: '#adb5bd',
+    color: '#004225',
+    marginBottom: 5,
     textAlign: 'center',
   },
   featureText: {
     fontSize: 14,
-    color: '#adb5bd',
+    color: '#004225',
     textAlign: 'center',
-  },
+  },  
   coursesPreview: {
     backgroundColor: '#ffffffff',
   },
@@ -439,21 +536,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 30,
     width: '100%',
-    backgroundColor: '#fff',
+    alignContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center',
+    height: 450,
+    // height: 450, // REMOVED: This fixed height was blocking the scroll.
+    backgroundColor: '#ffffffff',
   },
   courseCard: {
-    backgroundColor: '#343a40',
-    borderRadius: 10,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 8,
     elevation: 3,
     flex: 1,
-    minWidth: 300,
-    maxWidth: '100%',
+    minWidth: 320,
+    maxWidth: 380,
+    height: 380,
     marginHorizontal: 10,
     overflow: 'hidden',
-    marginBottom: 20,
   },
   courseCardImageContainer: {
-    height: 120,
+    height: 180,
     width: '100%',
   },
   courseImage: {
@@ -470,36 +572,34 @@ const styles = StyleSheet.create({
   courseTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#CFB53B',
     marginBottom: 10,
+    top: 20,
   },
   courseText: {
     fontSize: 16,
-    color: '#adb5bd',
+    color: '#004225',
     textAlign: 'center',
     marginBottom: 15,
   },
   btnOutline: {
-    backgroundColor: '#CFB53B',
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-    borderRadius: 5,
+    backgroundColor: 'transparent',
+    paddingVertical: 12, // Increased padding
+    paddingHorizontal: 40,// Increased padding
+    borderRadius: 2,
+    width: 200,
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+    bottom: 20,
+    height: 45, // Increased height
+    borderWidth: 2,
+    borderColor: '#dc3545',
   },
   btnOutlineText: {
-    color: '#fff',
+    color: '#dc3545',
     fontWeight: 'bold',
-    fontSize: 14,
-  },
-  viewAllBtnText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  btnOutlineHover: {
-    backgroundColor: '#bcae35',
+    fontSize: 16, // Increased font size
   },
   aboutSection: {
     backgroundColor: '#ffffffff',
@@ -512,14 +612,20 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: '#002a18',
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: 'left',
+    left: 30,
+    right: 30,
+    width: 1000,
   },
   testimonials: {
     backgroundColor: '#002a18',
     padding: 20,
+    textAlign: 'center',
+    height: 400,
+    // height: 400, // REMOVED: This fixed height was blocking the scroll.
   },
   testimonialsTitle: {
-    color: '#ffffff',
+    color: '#ffffffff',
     borderBottomColor: '#CFB53B',
   },
   testimonialGrid: {
@@ -531,27 +637,31 @@ const styles = StyleSheet.create({
     alignContent: 'center', 
   },
   testimonialCard: {
-    backgroundColor: '#000',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     padding: 20,
     borderRadius: 8,
     marginBottom: 10,
     elevation: 2,
+    flexBasis: '30%',
+    height: 250,
     minWidth: 300,
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 5,
   },
   testimonialText: {
     fontSize: 16,
     fontStyle: 'italic',
     color: '#fff',
     marginBottom: 10,
+    textAlign: 'center',
   },
   testimonialAuthor: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
+    textAlign: 'center',
+    top: 30,
   },
   cta: {
     backgroundColor: '#ffffffff',
@@ -561,7 +671,7 @@ const styles = StyleSheet.create({
   ctaTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#000000ff',
     textAlign: 'center',
     marginBottom: 10,
   },
@@ -571,14 +681,102 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  bottomNavItem: {
+  searchContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    marginBottom: 20,
+    width: '80%',
+    maxWidth: 600,
+    height: 60,
+    top: 180,
+    textAlign: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  searchInputContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    textAlign: 'center',
+    width: '100%',
+  },
+  searchIcon: {
+    marginRight: 15,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 18,
+    color: '#333',
+    textAlign: 'left',
+  },
+  searchButton: {
+    backgroundColor: '#CFB53B',
+    paddingHorizontal: 25,
+    justifyContent: 'center',
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
+    width: 100,
+    textAlign: 'center',
+  },
+  searchButtonText: {
+    color: '#002a18',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  searchButtonHover: {
+    backgroundColor: '#bcae35',
+  },
+  searchFeedbackText: {
+    color: '#CFB53B',
+    backgroundColor: 'rgba(176, 12, 0, 0.8)',
+    padding: 10,
+    borderRadius: 4,
+    marginTop: 10,
+    top: 180,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    width: '80%',
+    maxWidth: 600,
+  },
+  // New gold button styles
+  goldBtn: {
+    backgroundColor: '#dc3545',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 3,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
+    width: 300,
   },
-  bottomNavText: {
-    fontSize: 12,
-    color: '#004225',
-    marginTop: 4,
+  goldBtnText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  heroTextContainer: {
+    alignItems: 'center',
+  },
+  heroTitleSmall: {
+    fontSize: 18,
+    color: '#CFB53B',
+    marginBottom: 10, // REMOVED: top positioning,
+  },
+  heroTitleLarge: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 20, // REMOVED: top positioning
+  },
+  heroCtaContainer: {
+    marginTop: 20,
   },
 });
 

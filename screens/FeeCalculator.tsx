@@ -7,13 +7,24 @@ import { useNavigation } from '@react-navigation/native';
 import HeaderComponent from '../HeaderComponent';
 import BottomNav from '../BottomNav';
 
-type FeeCalculationResultsScreenRouteProp = RouteProp<RootStackParamList, 'FeeCalculationResults'>;
+type FeeCalculatorParams = {
+  personalInfo: { name: string; phone: string; email: string };
+  selectedCourses: { id: string; name: string; price: number }[];
+  subtotal: number;
+  discount: number;
+  discountAmount: number;
+  discountedSubtotal: number;
+  vatAmount: number;
+  total: number;
+};
+
+type FeeCalculatorScreenRouteProp = RouteProp<{ FeeCalculator: FeeCalculatorParams }, 'FeeCalculator'>;
 
 interface Props {
-  route: FeeCalculationResultsScreenRouteProp;
+  route: FeeCalculatorScreenRouteProp;
 }
 
-const FeeCalculationResultsScreen: React.FC<Props> = ({ route }) => {
+const FeeCalculatorScreen: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation<AppNavigationProp>();
 
   const {
@@ -42,7 +53,7 @@ const FeeCalculationResultsScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <View style={styles.fullScreenContainer}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.scrollContentContainer}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       {/* Header */}
       <HeaderComponent />
 
@@ -56,7 +67,7 @@ const FeeCalculationResultsScreen: React.FC<Props> = ({ route }) => {
         </View>
 
         <View style={styles.mainContent}>
-          <Text style={styles.sectionTitle}>Fee Calculation Results</Text>
+          <Text style={styles.sectionTitle}>Fee Calculator</Text>
 
           {/* Personal Information */}
           <View style={styles.infoCard}>
@@ -137,12 +148,7 @@ const FeeCalculationResultsScreen: React.FC<Props> = ({ route }) => {
 const styles = StyleSheet.create({
   fullScreenContainer: {
     flex: 1,
-    height: '100%', // Explicitly set height to ensure flex context
-    backgroundColor: '#fff',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f9fa',
   },
   scrollContentContainer: {
     paddingBottom: 100, // Space for bottom nav
@@ -150,9 +156,10 @@ const styles = StyleSheet.create({
   mobileNavContainer: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
+    width: '100%',
   },
   mobileNavLink: {
     paddingVertical: 12,
@@ -166,17 +173,137 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     padding: 20,
+    alignItems: 'center',
+    width: '100%',
+  },
+  container: {
+    flex: 1,
+  },
+  topBar: {
+    backgroundColor: '#004225',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    minHeight: 40,
+    zIndex: 1000,
+  },
+  topBarText: {
+    color: '#fff',
+    fontSize: 15,
+    left: 120,
+    top: 8,
+  },
+  topBarLinks: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  topBarLinkText: {
+    color: '#fff',
+    fontSize: 15,
+    marginLeft: 15,
+    right: 200,
+    top: 8,
+  },
+  header: {
+    padding: 16,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  logoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    marginRight: 15,
+    left: 10,
+  },
+  orgName: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#004225',
+    left: 10,
+  },
+  navMenu: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    maxWidth: '60%',
+  },
+  navLinkContainer: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 4,
+    marginRight: 10,
+    marginHorizontal: 5,
+    height: 25,
+  },
+  navLinkHoverActive: {
+    backgroundColor: '#e6f0f7',
+  },
+  navLink: {
+    fontSize: 18,
+    color: '#000000ff',
+    fontWeight: '500',
+    marginHorizontal: 25,
+  },
+  navLinkTextHoverActive: {
+    color: '#1F6357',
+  },
+  breadcrumb: {
+    backgroundColor: '#f8f9fa',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  breadcrumbContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  breadcrumbLink: {
+    fontSize: 14,
+    color: '#0055a5',
+    fontWeight: '500',
+  },
+  breadcrumbSeparator: {
+    fontSize: 14,
+    color: '#6c757d',
+    marginHorizontal: 5,
+  },
+  breadcrumbCurrent: {
+    fontSize: 14,
+    color: '#000000ff',
+  },
+  section: {
+    padding: 20,
+    alignItems: 'center',
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#000000ff',
     textAlign: 'center',
     marginBottom: 30,
     paddingBottom: 10,
     borderBottomWidth: 4,
     borderBottomColor: '#CFB53B',
     alignSelf: 'center',
+    width: '50%',
+  },
+  // Content Container for Centralization
+  contentContainer: {
+    width: '100%',
+    maxWidth: 800,
+    paddingBottom: 100,
   },
   // Info Cards
   infoCard: {
@@ -190,10 +317,11 @@ const styles = StyleSheet.create({
     padding: 25,
     marginBottom: 25,
     width: '100%',
+    maxWidth: 600,
   },
   cardTitle: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 22,
+    fontWeight: 'bold',
     color: '#004225',
     marginBottom: 20,
     paddingBottom: 10,
@@ -208,12 +336,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   infoLabel: {
-    fontSize: 15,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
     color: '#002a18',
   },
   infoValue: {
-    fontSize: 15,
+    fontSize: 16,
     color: '#002a18',
     fontWeight: '500',
   },
@@ -226,14 +354,14 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f0f0f0',
   },
   courseName: {
-    fontSize: 15,
+    fontSize: 16,
     color: '#002a18',
     flex: 1,
     marginRight: 10,
   },
   coursePrice: {
-    fontSize: 15,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
     color: '#CFB53B',
     minWidth: 80,
     textAlign: 'right',
@@ -247,12 +375,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f0f0f0',
   },
   calculationLabel: {
-    fontSize: 15,
+    fontSize: 16,
     color: '#002a18',
     fontWeight: '500',
   },
   calculationValue: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
     color: '#002a18',
   },
@@ -275,12 +403,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   totalLabel: {
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#004225',
   },
   totalValue: {
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#004225',
   },
@@ -288,21 +416,168 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     marginTop: 20,
     width: '100%',
+    maxWidth: 600,
+    alignItems: 'center',
+  },
+  enrollButton: {
+    backgroundColor: '#dc3545',
+    padding: 16,
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+    width: '100%',
+    maxWidth: 400,
+  },
+  enrollButtonHover: {
+    backgroundColor: '#002a18',
+  },
+  buttonIcon: {
+    marginRight: 10,
+  },
+  enrollButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   backButton: {
     backgroundColor: 'transparent',
-    padding: 15,
+    padding: 16,
     borderRadius: 4,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#004225',
+    borderColor: '#dc3545',
     width: '100%',
+    maxWidth: 400,
+  },
+  backButtonHover: {
+    backgroundColor: 'rgba(0, 66, 37, 0.1)',
   },
   backButtonText: {
-    color: '#004225',
+    color: '#dc3545',
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 16,
+  },
+  // Footer Styles
+  footer: {
+    backgroundColor: '#002a18',
+    paddingTop: 50,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+  },
+  footerGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 40,
+  },
+  footerColumn: {
+    marginBottom: 20,
+    flex: 1,
+    minWidth: 250,
+    left: 100,
+    right: 100,
+  },
+  footerHeading: {
+    color: '#fff',
+    marginBottom: 20,
+    paddingBottom: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    borderBottomWidth: 3,
+    borderBottomColor: '#CFB53B',
+    width: 200,
+  },
+  footerText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    lineHeight: 20,
+    marginBottom: 5,
+  },
+  socialLinks: {
+    flexDirection: 'row',
+    marginTop: 10,
+    gap: 12,
+  },
+  socialLink: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  socialLinkHover: {
+    backgroundColor: '#CFB53B',
+  },
+  footerLink: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    marginBottom: 8,
+  },
+  footerLinkHover: {
+    color: '#CFB53B',
+  },
+  contactInfoItem: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    lineHeight: 20,
+    marginBottom: 15,
+  },
+  copyright: {
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
+    paddingTop: 20,
+    marginTop: 10,
+  },
+  copyrightText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.7)',
+    textAlign: 'center',
+  },
+  // Dropdown styles
+  dropdownContainer: {
+    position: 'relative',
+    zIndex: 1001,
+  },
+  dropdownTrigger: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    right: 200,
+    top: 8,
+  },
+  dropdownCaret: {
+    marginLeft: 5,
+  },
+  dropdownMenu: {
+    position: 'absolute',
+    top: 35,
+    right: 0,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+    minWidth: 120,
+    borderWidth: 1,
+    borderColor: '#eee',
+    zIndex: 1002,
+  },
+  dropdownItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  dropdownItemText: {
+    fontSize: 14,
+    color: '#004225',
+    fontWeight: '500',
   },
 });
 
-export default FeeCalculationResultsScreen;
+export default FeeCalculatorScreen;
